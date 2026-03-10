@@ -32,7 +32,7 @@ const FloatingQR = ({ size = 60, className = '', delay = '0s' }) => (
 );
 
 export default function Home() {
-  const d = "http://localhost:5173";
+  const d = "https://grb-dashboard.vercel.app";
   const steps = [
     { n:'01', icon:'👤', title:'Merchant Sign Up', desc:'Merchant signs up and sets up their business profile on GRB dashboard', color:'from-blue-500 to-cyan-400' },
     { n:'02', icon:'🔲', title:'QR Code Generated', desc:'Branded QR code is automatically generated for store display', color:'from-purple-500 to-pink-400' },

@@ -86,7 +86,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <a href={`${d}/login`} className="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all">Sign In</a>
-              <a href={`${d}/login`} className="btn-qr px-6 py-2.5 text-sm font-semibold rounded-xl text-white">Get Started</a>
+              <a href={`${d}/register`} className="btn-qr px-6 py-2.5 text-sm font-semibold rounded-xl text-white">Get Started</a>
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function Home() {
               Intelligent QR-based review management that filters negative reviews, directs satisfied customers to Google Reviews, and builds your reputation automatically.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 animate-fade-in-up">
-              <a href={`${d}/login`} className="btn-qr px-10 py-4 text-base font-bold rounded-2xl text-white flex items-center gap-2 animate-pulse-glow">
+              <a href={`${d}/register`} className="btn-qr px-10 py-4 text-base font-bold rounded-2xl text-white flex items-center gap-2 animate-pulse-glow">
                 Start Free Trial
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
               </a>
@@ -237,7 +237,7 @@ export default function Home() {
               </h2>
               <p className="text-lg text-slate-400 mb-10 leading-relaxed">A clear, step-by-step process illustrating how the GRB system operates for merchants and customers. From sign-up to reputation growth — all automated.</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href={`${d}/login`} className="btn-qr px-8 py-4 text-base font-bold rounded-2xl text-white text-center">Start Free Trial</a>
+                <a href={`${d}/register`} className="btn-qr px-8 py-4 text-base font-bold rounded-2xl text-white text-center">Start Free Trial</a>
                 <a href="#demo" className="px-8 py-4 text-base font-semibold rounded-2xl text-slate-300 border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all text-center">Watch Demo</a>
               </div>
             </div>
@@ -324,7 +324,7 @@ export default function Home() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {p.features.map((f,j)=>(<li key={j} className="flex items-center gap-3 text-sm text-slate-400"><svg className={`w-4 h-4 text-${p.color}-400 flex-shrink-0`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>{f}</li>))}
                 </ul>
-                <a href={`${d}/login`} className={`w-full block py-4 text-center font-bold rounded-2xl text-white ${p.pop?'btn-qr':'border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all'}`}>Choose Plan</a>
+                <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl text-white ${p.pop?'btn-qr':'border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all'}`}>Choose Plan</a>
               </div>
             ))}
           </div>
@@ -372,7 +372,7 @@ export default function Home() {
             <div className="glass-card rounded-3xl p-12 md:p-20 relative"><QRBrackets />
               <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight heading-premium heading-glow text-auto-glow"><span className="text-white">Ready to boost your </span><span className="text-gradient-qr heading-underline">Google Reviews</span><span className="text-white">?</span></h2>
               <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">Scan. Filter. Grow. Take control of your online reputation with GRB&apos;s smart QR system.</p>
-              <a href={`${d}/login`} className="btn-qr inline-flex px-12 py-5 text-lg font-bold rounded-2xl text-white items-center gap-3 animate-pulse-glow">
+              <a href={`${d}/register`} className="btn-qr inline-flex px-12 py-5 text-lg font-bold rounded-2xl text-white items-center gap-3 animate-pulse-glow">
                 Get Started Today <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
               </a>
               <p className="text-sm text-slate-500 mt-6">14-day free trial · No credit card required</p>
@@ -410,7 +410,7 @@ export default function Home() {
                 <li className="flex items-center gap-3 text-sm text-slate-500">📞 +91 98765 43210</li>
                 <li className="flex items-center gap-3 text-sm text-slate-500">📍 Mumbai, Maharashtra</li>
               </ul>
-              <a href={`${d}/login`} className="btn-qr mt-6 inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl text-white w-full">Get Started Free</a>
+              <a href={`${d}/register`} className="btn-qr mt-6 inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl text-white w-full">Get Started Free</a>
             </div>
           </div>
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">

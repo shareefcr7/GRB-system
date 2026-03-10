@@ -21,7 +21,7 @@ const EyeOffIcon = () => (
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showEmail, setShowEmail] = useState(true);
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -58,28 +58,18 @@ const Login = () => {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm space-y-4">
-            {/* Email field with show/hide toggle */}
-            <div className="relative">
+            {/* Email field */}
+            <div>
               <input
                 id="email-input"
-                type={showEmail ? 'email' : 'password'}
+                type="email"
                 required
-                className="appearance-none relative block w-full px-3 py-3 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
-              <button
-                type="button"
-                id="toggle-email-visibility"
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-200"
-                onClick={() => setShowEmail(!showEmail)}
-                tabIndex={-1}
-                title={showEmail ? 'Hide email' : 'Show email'}
-              >
-                {showEmail ? <EyeIcon /> : <EyeOffIcon />}
-              </button>
             </div>
 
             {/* Password field with show/hide toggle */}

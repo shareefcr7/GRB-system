@@ -21,7 +21,8 @@ const Register = () => {
       navigate('/login');
     } catch (error) {
       console.error('Registration error', error);
-      alert('Failed to register business');
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to register business';
+      alert(errorMsg);
     }
   };
 

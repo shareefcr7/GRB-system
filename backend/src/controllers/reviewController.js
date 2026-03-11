@@ -103,7 +103,10 @@ const submitReview = async (req, res) => {
 // @access  Private (Business Admin)
 const getReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ businessId: req.user.businessId }).sort({ createdAt: -1 });
+    const reviews = await Review.find({ 
+      businessId: req.user.businessId,
+      rating: { $lt: 4 } // Only fetch 1, 2, 3 star reviews for the dashboard
+    }).sort({ createdAt: -1 });
     res.json(reviews);
   } catch (error) {
     res.status(500).json({ message: error.message });

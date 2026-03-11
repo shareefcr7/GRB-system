@@ -32,23 +32,25 @@ const ReviewScanner = () => {
 
   const activeRating = hoveredRating || rating;
 
-  const handleRatingSubmit = async (selectedRating) => {
+  const handleRatingSubmit = (selectedRating) => {
     setSubmitted(true);
+    
     if (selectedRating >= 4) {
       if (business?.googleReviewLink) {
-        try {
-          await publicService.submitReview(businessId, { rating: selectedRating });
-        } catch (e) {
+        // Fire API call in background so we don't block the UI
+        publicService.submitReview(businessId, { rating: selectedRating }).catch(e => {
           console.error('Failed logging review', e);
-        }
+        });
+        
+        // Immediate redirect to prevent mobile browser pop-up blockers
         setTimeout(() => {
-          window.location.href = business.googleReviewLink;
-        }, 800);
+          window.location.replace(business.googleReviewLink);
+        }, 400); 
       } else {
-        setTimeout(() => navigate(`/thank-you`), 800);
+        setTimeout(() => navigate(`/thank-you`), 400);
       }
     } else {
-      setTimeout(() => navigate(`/feedback/${businessId}?rating=${selectedRating}`), 800);
+      setTimeout(() => navigate(`/feedback/${businessId}?rating=${selectedRating}`), 400);
     }
   };
 

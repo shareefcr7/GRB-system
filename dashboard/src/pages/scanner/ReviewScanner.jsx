@@ -75,7 +75,7 @@ const ReviewScanner = () => {
               <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
           </div>
-          <h2 style={styles.errorTitle}>QR Code Expired or Invalid</h2>
+          <h2 style={styles.errorTitle}>Invalid QR Code</h2>
           <p style={styles.errorText}>Please scan a valid business QR code to continue.</p>
         </div>
       </div>

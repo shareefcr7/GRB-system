@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/api';
+import toast from 'react-hot-toast';
 
 // Eye icon (visible state)
 const EyeIcon = () => (
@@ -31,6 +32,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await authService.login(email.trim(), password.trim());
+      toast.success('Login Successful');
       if (response.role === 'SuperAdmin') {
         navigate('/superadmin');
       } else {
@@ -39,7 +41,7 @@ const Login = () => {
     } catch (error) {
       console.error('Login failed', error);
       const errorMsg = error.response?.data?.message || error.message || 'Login failed';
-      alert(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }

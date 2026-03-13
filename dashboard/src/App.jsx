@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 // Pages
 import Login from './pages/auth/Login';
@@ -37,6 +38,7 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <main className="flex-grow">
           <Routes>

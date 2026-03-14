@@ -20,6 +20,9 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
   const [logo, setLogo] = useState(null);
   const [label, setLabel] = useState('Review us on Google');
   const [labelColor, setLabelColor] = useState('#5f6368');
+  const [labelFont, setLabelFont] = useState('Inter, sans-serif');
+  const [showStars, setShowStars] = useState(true);
+  const [frameBgColor, setFrameBgColor] = useState('#ffffff');
   const [size, setSize] = useState(1024);
   const [frameType, setFrameType] = useState('google'); // 'none', 'instagram', 'card', 'google'
   
@@ -70,7 +73,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
           gradient: dotsGradient,
         },
         backgroundOptions: {
-          color: (frameType === 'instagram' || frameType === 'google') ? '#ffffff' : bgColor,
+          color: bgColor,
         },
         cornersSquareOptions: {
           type: dotsType === 'rounded' || dotsType === 'extra-rounded' ? 'extra-rounded' : 'square',
@@ -279,13 +282,22 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
                 />
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Background</span>
+                <span className="text-sm text-gray-600">QR Background</span>
                 <input 
                   type="color" 
-                  disabled={frameType === 'instagram' || frameType === 'google'}
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
-                  className={`w-10 h-10 rounded-full overflow-hidden border-none cursor-pointer ${(frameType === 'instagram' || frameType === 'google') ? 'opacity-30 cursor-not-allowed' : ''}`}
+                  className="w-10 h-10 rounded-full overflow-hidden border-none cursor-pointer"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Frame Background</span>
+                <input 
+                  type="color" 
+                  value={frameBgColor}
+                  onChange={(e) => setFrameBgColor(e.target.value)}
+                  disabled={frameType === 'none'}
+                  className={`w-10 h-10 rounded-full overflow-hidden border-none cursor-pointer ${frameType === 'none' ? 'opacity-30 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -341,6 +353,30 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
                     className="w-8 h-8 rounded-full overflow-hidden border-none cursor-pointer"
                   />
                 </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">Font Style</span>
+                  <select 
+                    value={labelFont}
+                    onChange={(e) => setLabelFont(e.target.value)}
+                    className="px-3 py-1 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="Inter, sans-serif">Inter</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier</option>
+                    <option value="'Comic Sans MS', cursive">Comic Sans</option>
+                    <option value="Impact, sans-serif">Impact</option>
+                  </select>
+                </div>
+                <label className="flex items-center gap-3 cursor-pointer pt-2">
+                  <input 
+                    type="checkbox"
+                    checked={showStars}
+                    onChange={(e) => setShowStars(e.target.checked)}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Show 5 Stars</span>
+                </label>
               </div>
             </section>
           </div>
@@ -399,23 +435,28 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
 
             <div 
               className={`flex flex-col items-center justify-center min-w-[280px] min-h-[350px] transition-all duration-500 relative z-10 w-full h-full ${
-                frameType === 'instagram' ? 'bg-white p-8 rounded-[2.5rem] shadow-inner' : 
-                frameType === 'card' ? 'bg-white p-6 rounded-2xl border border-gray-100' : 
-                frameType === 'google' ? 'bg-white p-6 rounded-[2.2rem]' : ''
+                frameType === 'instagram' ? 'p-8 rounded-[2.5rem] shadow-inner' : 
+                frameType === 'card' ? 'p-6 rounded-2xl border border-gray-100' : 
+                frameType === 'google' ? 'p-6 rounded-[2.2rem]' : ''
               }`}
+              style={{
+                backgroundColor: frameType === 'none' ? 'transparent' : frameBgColor
+              }}
             >
               <div ref={qrRef} className="qr-container scale-90" />
               {label && (
                 <div 
-                  className={`mt-4 font-bold tracking-tight text-center ${frameType === 'google' ? 'text-xl' : 'text-2xl uppercase font-black tracking-tighter'}`}
-                  style={{ color: labelColor }}
+                  className={`mt-4 tracking-tight text-center ${frameType === 'google' ? 'text-xl font-bold' : 'text-2xl uppercase font-black tracking-tighter'}`}
+                  style={{ color: labelColor, fontFamily: labelFont }}
                 >
                   {label}
-                  <div className="flex justify-center mt-1 text-[#FBBC05] gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={20} fill="currentColor" stroke="none" />
-                    ))}
-                  </div>
+                  {showStars && (
+                    <div className="flex justify-center mt-1 text-[#FBBC05] gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={20} fill="currentColor" stroke="none" />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

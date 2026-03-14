@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { Download, Upload, Trash2, Layout, Palette, Type, Smartphone, Check, Star } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import { toPng, toSvg } from 'html-to-image';
 
 const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', businessName = 'Your Business' }) => {
   const [url, setUrl] = useState(defaultUrl);
@@ -102,32 +103,40 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
   };
 
   const downloadQR = async (format) => {
-    if (!qrCode) return;
+    const frameNode = document.getElementById('qr-download-frame');
+    if (!frameNode) return;
+
+    // Use a high pixel ratio for print-quality export
+    const scale = size / frameNode.offsetWidth;
 
     if (format === 'pdf') {
+       const dataUrl = await toPng(frameNode, { pixelRatio: scale, skipFonts: false });
        const doc = new jsPDF({
          orientation: 'p',
          unit: 'mm',
        });
        
-       const canvas = qrRef.current.querySelector('canvas');
-       if (canvas) {
-         const imgData = canvas.toDataURL('image/png');
-         doc.addImage(imgData, 'PNG', 10, 10, 190, 190);
-         if (label) {
-           doc.setTextColor(labelColor);
-           doc.setFontSize(24);
-           doc.text(label, 105, 210, { align: 'center' });
-         }
-         doc.save('grb-qr-code.pdf');
-       }
+       // Calculate properties to fit on PDF maintaining aspect ratio
+       const imgProps = doc.getImageProperties(dataUrl);
+       const pdfWidth = doc.internal.pageSize.getWidth();
+       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+       
+       doc.addImage(dataUrl, 'PNG', 10, 10, pdfWidth - 20, (pdfWidth - 20) * (imgProps.height / imgProps.width));
+       doc.save(`grb-qr-${businessName.replace(/\s+/g, '-')}.pdf`);
        return;
+    } else if (format === 'svg') {
+       const dataUrl = await toSvg(frameNode, { pixelRatio: 1, skipFonts: false });
+       const link = document.createElement('a');
+       link.download = `grb-qr-${businessName.replace(/\s+/g, '-')}.svg`;
+       link.href = dataUrl;
+       link.click();
+    } else {
+       const dataUrl = await toPng(frameNode, { pixelRatio: scale, skipFonts: false });
+       const link = document.createElement('a');
+       link.download = `grb-qr-${businessName.replace(/\s+/g, '-')}.png`;
+       link.href = dataUrl;
+       link.click();
     }
-
-    qrCode.update({ width: size, height: size });
-    qrCode.download({ name: `qr-${businessName.replace(/\s+/g, '-')}`, extension: format }).then(() => {
-      qrCode.update({ width: 280, height: 280 });
-    });
   };
 
   return (
@@ -365,6 +374,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
           
           {/* Frame Container */}
           <div 
+            id="qr-download-frame"
             className={`transition-all duration-500 relative ${
               frameType === 'none' ? '' : 
               frameType === 'google' ? 'p-1 overflow-hidden rounded-[2.5rem] shadow-xl' :

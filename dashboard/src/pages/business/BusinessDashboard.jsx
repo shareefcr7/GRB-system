@@ -1,5 +1,6 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import { businessService } from '../../services/api';
 
 // Lazy Import Pages
 const Overview = lazy(() => import('./Overview'));
@@ -11,6 +12,23 @@ const Settings = lazy(() => import('./Settings'));
 const BusinessDashboard = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [unresolvedCount, setUnresolvedCount] = useState(0);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const stats = await businessService.getBusinessStats();
+        setUnresolvedCount(stats.unresolvedIssues || 0);
+      } catch (error) {
+        console.error("Failed to fetch notification stats", error);
+      }
+    };
+    fetchStats();
+    
+    // Refresh notifications every 60 seconds
+    const interval = setInterval(fetchStats, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -72,12 +90,17 @@ const BusinessDashboard = () => {
             </h1>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="text-gray-400 hover:text-gray-600 transition-colors">
+            <NavLink to="/admin/reviews" className="relative text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
               <span className="sr-only">Notifications</span>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
-            </button>
+              {unresolvedCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 ring-2 ring-white text-[10px] font-bold text-white">
+                  {unresolvedCount > 9 ? '9+' : unresolvedCount}
+                </span>
+              )}
+            </NavLink>
             <div className="flex items-center space-x-3 cursor-pointer">
               <div className="h-9 w-9 rounded-full bg-gradient-to-r from-purple-400 to-indigo-500 text-white flex items-center justify-center font-bold shadow-sm">
                 B

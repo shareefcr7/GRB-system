@@ -8,9 +8,10 @@ const bcrypt = require('bcryptjs');
 // @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(`Login attempt: email='${email}', password='${password}'`);
+  const normalizedEmail = email.trim().toLowerCase();
+  console.log(`Login attempt: email='${normalizedEmail}'`);
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
@@ -36,9 +37,10 @@ const loginUser = async (req, res) => {
 // @access  Public
 const registerBusiness = async (req, res) => {
   const { businessName, googleReviewLink, phone, address, adminName, adminEmail, adminPassword } = req.body;
+  const normalizedEmail = adminEmail.trim().toLowerCase();
 
   try {
-    const userExists = await User.findOne({ email: adminEmail });
+    const userExists = await User.findOne({ email: normalizedEmail });
 
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -62,7 +64,7 @@ const registerBusiness = async (req, res) => {
     // Create Business Admin User
     const user = await User.create({
       name: adminName,
-      email: adminEmail,
+      email: normalizedEmail,
       password: hashedPassword,
       role: 'BusinessAdmin',
       businessId: business._id,

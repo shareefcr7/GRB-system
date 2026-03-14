@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await authService.login(email.trim(), password.trim());
+      const response = await authService.login(email.trim(), password);
       toast.success('Login Successful');
       if (response.role === 'SuperAdmin') {
         navigate('/superadmin');

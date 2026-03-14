@@ -411,13 +411,11 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
                   style={{ color: labelColor }}
                 >
                   {label}
-                  {frameType === 'google' && (
-                    <div className="flex justify-center mt-1 text-[#FBBC05]">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={20} fill="currentColor" stroke="none" />
-                      ))}
-                    </div>
-                  )}
+                  <div className="flex justify-center mt-1 text-[#FBBC05] gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={20} fill="currentColor" stroke="none" />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

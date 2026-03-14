@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Routes, Route, NavLink, useLocation } from 'react-router-dom';
 
-// Import Pages
-import Overview from './Overview';
-import Reviews from './Reviews';
-import QRManager from './QRManager';
-import Billing from './Billing';
-import Settings from './Settings';
+// Lazy Import Pages
+const Overview = lazy(() => import('./Overview'));
+const Reviews = lazy(() => import('./Reviews'));
+const QRManager = lazy(() => import('./QRManager'));
+const Billing = lazy(() => import('./Billing'));
+const Settings = lazy(() => import('./Settings'));
 
 const BusinessDashboard = () => {
   const location = useLocation();
@@ -90,13 +90,19 @@ const BusinessDashboard = () => {
         {/* Page Content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50/50 p-4 sm:p-8">
           <div className="max-w-7xl mx-auto h-full">
-            <Routes>
-              <Route path="/" element={<Overview />} />
-              <Route path="/reviews" element={<Reviews />} />
-              <Route path="/qr-manager" element={<QRManager />} />
-              <Route path="/billing" element={<Billing />} />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
+            <Suspense fallback={
+              <div className="flex h-full items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              </div>
+            }>
+              <Routes>
+                <Route path="/" element={<Overview />} />
+                <Route path="/reviews" element={<Reviews />} />
+                <Route path="/qr-manager" element={<QRManager />} />
+                <Route path="/billing" element={<Billing />} />
+                <Route path="/settings" element={<Settings />} />
+              </Routes>
+            </Suspense>
           </div>
         </main>
       </div>

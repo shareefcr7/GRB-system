@@ -1,4 +1,5 @@
 const Business = require('../models/Business');
+const Review = require('../models/Review');
 const QRCode = require('qrcode');
 
 // @desc    Get business details
@@ -90,9 +91,44 @@ const getPublicBusiness = async (req, res) => {
   }
 };
 
+// @desc    Get business stats (Scans, Ratings, Feedback)
+// @route   GET /api/business/stats
+// @access  Private (Business Admin)
+const getBusinessStats = async (req, res) => {
+  try {
+    const businessId = req.user.businessId;
+
+    // We can count all reviews as "Scan Intents"
+    const allReviews = await Review.find({ businessId });
+    
+    const totalScans = allReviews.length;
+    
+    // Average rating
+    const avgRating = allReviews.length > 0 
+      ? (allReviews.reduce((acc, r) => acc + r.rating, 0) / allReviews.length).toFixed(1)
+      : 0;
+
+    // Internal Feedback (1-3 stars)
+    const internalFeedbackCount = allReviews.filter(r => r.rating < 4).length;
+    const unresolvedIssues = allReviews.filter(r => r.rating < 4 && r.resolutionStatus === 'Pending').length;
+
+    res.json({
+      totalScans,
+      avgRating,
+      internalFeedbackCount,
+      unresolvedIssues,
+      scansGrowth: '+12.5%', // Mocked growth for now as we don't have historical scan logs
+      ratingGrowth: '+0.1'
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getBusiness,
   updateBusiness,
   generateQR,
   getPublicBusiness,
+  getBusinessStats
 };

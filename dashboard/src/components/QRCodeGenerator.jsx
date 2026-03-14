@@ -1,34 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCodeStyling from 'qr-code-styling';
-import { Download, Upload, Trash2, Layout, Palette, Type, Smartphone, Check } from 'lucide-react';
+import { Download, Upload, Trash2, Layout, Palette, Type, Smartphone, Check, Star } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 
-const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) => {
+const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', businessName = 'Your Business' }) => {
   const [url, setUrl] = useState(defaultUrl);
-  const [dotsColor, setDotsColor] = useState('#ff9c33');
+  const [dotsColor, setDotsColor] = useState('#4285F4'); // Google Blue
   const [dotsGradient, setDotsGradient] = useState({
     type: 'linear',
     rotation: 45,
     colorStops: [
-      { offset: 0, color: '#ff9c33' },
-      { offset: 1, color: '#e91e63' },
+      { offset: 0, color: '#4285F4' },
+      { offset: 1, color: '#34A853' },
     ],
   });
   const [dotsType, setDotsType] = useState('rounded');
   const [bgColor, setBgColor] = useState('#ffffff');
   const [logo, setLogo] = useState(null);
-  const [label, setLabel] = useState('@MALABARMENU');
-  const [labelColor, setLabelColor] = useState('#e91e63');
+  const [label, setLabel] = useState('Review us on Google');
+  const [labelColor, setLabelColor] = useState('#5f6368');
   const [size, setSize] = useState(1024);
-  const [frameType, setFrameType] = useState('none'); // 'none', 'rounded-ios', 'square'
+  const [frameType, setFrameType] = useState('google'); // 'none', 'instagram', 'card', 'google'
   
   const qrRef = useRef(null);
   const [qrCode, setQrCode] = useState(null);
 
   useEffect(() => {
     const qrCodeStyling = new QRCodeStyling({
-      width: 300,
-      height: 300,
+      width: 280,
+      height: 280,
       data: url,
       image: logo,
       dotsOptions: {
@@ -41,7 +41,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
       },
       imageOptions: {
         crossOrigin: 'anonymous',
-        margin: 10,
+        margin: 8,
         imageSize: 0.4,
       },
       cornersSquareOptions: {
@@ -62,14 +62,14 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
     if (qrCode) {
       qrCode.update({
         data: url,
-        image: logo,
+        image: logo || (frameType === 'google' ? 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\"G\"_logo.svg' : null),
         dotsOptions: {
           color: dotsColor,
           type: dotsType,
           gradient: dotsGradient,
         },
         backgroundOptions: {
-          color: frameType === 'instagram' ? '#ffffff' : bgColor,
+          color: (frameType === 'instagram' || frameType === 'google') ? '#ffffff' : bgColor,
         },
         cornersSquareOptions: {
           type: dotsType === 'rounded' || dotsType === 'extra-rounded' ? 'extra-rounded' : 'square',
@@ -105,7 +105,6 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
     if (!qrCode) return;
 
     if (format === 'pdf') {
-       // PDF generation logic
        const doc = new jsPDF({
          orientation: 'p',
          unit: 'mm',
@@ -126,8 +125,8 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
     }
 
     qrCode.update({ width: size, height: size });
-    qrCode.download({ name: 'grb-qr-code', extension: format }).then(() => {
-      qrCode.update({ width: 300, height: 300 });
+    qrCode.download({ name: `qr-${businessName.replace(/\s+/g, '-')}`, extension: format }).then(() => {
+      qrCode.update({ width: 280, height: 280 });
     });
   };
 
@@ -196,11 +195,27 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
               {[
                 { id: 'none', label: 'No Frame' },
                 { id: 'instagram', label: 'Instagram' },
+                { id: 'google', label: 'Google Style' },
                 { id: 'card', label: 'Card' }
               ].map((style) => (
                 <button
                   key={style.id}
-                  onClick={() => setFrameType(style.id)}
+                  onClick={() => {
+                    setFrameType(style.id);
+                    if (style.id === 'google') {
+                      setDotsColor('#4285F4');
+                      setDotsGradient({
+                        type: 'linear',
+                        rotation: 45,
+                        colorStops: [
+                          { offset: 0, color: '#4285F4' },
+                          { offset: 1, color: '#34A853' },
+                        ]
+                      });
+                      setLabel('Review us on Google');
+                      setLabelColor('#5f6368');
+                    }
+                  }}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     frameType === style.id 
                       ? 'bg-indigo-600 text-white shadow-md' 
@@ -258,10 +273,10 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
                 <span className="text-sm text-gray-600">Background</span>
                 <input 
                   type="color" 
-                  disabled={frameType === 'instagram'}
+                  disabled={frameType === 'instagram' || frameType === 'google'}
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
-                  className={`w-10 h-10 rounded-full overflow-hidden border-none cursor-pointer ${frameType === 'instagram' ? 'opacity-30 cursor-not-allowed' : ''}`}
+                  className={`w-10 h-10 rounded-full overflow-hidden border-none cursor-pointer ${(frameType === 'instagram' || frameType === 'google') ? 'opacity-30 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -282,7 +297,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
                   <span className="text-sm text-gray-500">Upload Image</span>
                   <input type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} />
                 </label>
-                {logo && (
+                {(logo || frameType === 'google') && (
                   <button 
                     onClick={() => setLogo(null)}
                     className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-all"
@@ -348,35 +363,62 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
         <div className={`bg-white p-8 rounded-[2.5rem] shadow-2xl border border-gray-100 flex flex-col items-center transition-all duration-500`}>
           <h3 className="text-xl font-bold text-gray-800 mb-8">Live Preview</h3>
           
-          {/* Instagram Style Container */}
+          {/* Frame Container */}
           <div 
-            className={`p-10 mb-8 transition-all duration-500 ${frameType === 'none' ? '' : 'shadow-xl rounded-[3rem]'}`}
+            className={`transition-all duration-500 relative ${
+              frameType === 'none' ? '' : 
+              frameType === 'google' ? 'p-1 overflow-hidden rounded-[2.5rem] shadow-xl' :
+              'p-10 shadow-xl rounded-[3rem]'
+            }`}
             style={{ 
               background: frameType === 'instagram' 
                 ? `linear-gradient(45deg, ${dotsGradient.colorStops[0].color}, ${dotsGradient.colorStops[1].color})` 
-                : frameType === 'card' ? '#f8fafc' : 'transparent',
-              padding: frameType === 'none' ? '0' : '2.5rem'
+                : frameType === 'card' ? '#f8fafc' : 
+                  frameType === 'google' ? 'white' : 'transparent',
+              padding: frameType === 'none' ? '0' : (frameType === 'google' ? '4px' : '2.5rem')
             }}
           >
+            {/* Google multi-color border effect */}
+            {frameType === 'google' && (
+              <div className="absolute inset-0 z-0">
+                 <div className="absolute top-0 left-0 w-1/2 h-2 bg-[#4285F4]"></div>
+                 <div className="absolute top-0 right-0 w-1/2 h-2 bg-[#EA4335]"></div>
+                 <div className="absolute bottom-0 left-0 w-1/2 h-2 bg-[#FBBC05]"></div>
+                 <div className="absolute bottom-0 right-0 w-1/2 h-2 bg-[#34A853]"></div>
+                 <div className="absolute top-0 left-0 w-2 h-1/2 bg-[#4285F4]"></div>
+                 <div className="absolute bottom-0 left-0 w-2 h-1/2 bg-[#FBBC05]"></div>
+                 <div className="absolute top-0 right-0 w-2 h-1/2 bg-[#EA4335]"></div>
+                 <div className="absolute bottom-0 right-0 w-2 h-1/2 bg-[#34A853]"></div>
+              </div>
+            )}
+
             <div 
-              className={`flex flex-col items-center justify-center min-w-[280px] min-h-[350px] transition-all duration-500 ${
+              className={`flex flex-col items-center justify-center min-w-[280px] min-h-[350px] transition-all duration-500 relative z-10 ${
                 frameType === 'instagram' ? 'bg-white p-8 rounded-[2.5rem] shadow-inner' : 
-                frameType === 'card' ? 'bg-white p-6 rounded-2xl border border-gray-100' : ''
+                frameType === 'card' ? 'bg-white p-6 rounded-2xl border border-gray-100' : 
+                frameType === 'google' ? 'bg-white p-6 rounded-[2.2rem]' : ''
               }`}
             >
               <div ref={qrRef} className="qr-container scale-90" />
               {label && (
                 <div 
-                  className="mt-6 font-black text-2xl tracking-tighter uppercase text-center"
+                  className={`mt-4 font-bold tracking-tight text-center ${frameType === 'google' ? 'text-xl' : 'text-2xl uppercase font-black tracking-tighter'}`}
                   style={{ color: labelColor }}
                 >
                   {label}
+                  {frameType === 'google' && (
+                    <div className="flex justify-center mt-1 text-[#FBBC05]">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={20} fill="currentColor" stroke="none" />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
 
-          <div className="w-full space-y-3">
+          <div className="w-full space-y-3 mt-8">
             <button 
               onClick={() => downloadQR('png')}
               className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-black transition-all shadow-lg active:scale-95"
@@ -402,7 +444,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app' }) =>
 
           <div className="mt-6 flex items-center gap-2 text-green-600 bg-green-50 px-4 py-2 rounded-full text-sm font-medium">
             <Check size={16} />
-            Ready to scan
+            Ready for print
           </div>
         </div>
       </div>

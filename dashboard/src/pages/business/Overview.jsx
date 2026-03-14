@@ -5,18 +5,28 @@ import { reviewService, businessService } from '../../services/api';
 const Overview = () => {
   const [reviews, setReviews] = useState([]);
   const [business, setBusiness] = useState(null);
+  const [stats, setStats] = useState({
+    totalScans: 0,
+    avgRating: 0,
+    internalFeedbackCount: 0,
+    unresolvedIssues: 0,
+    scansGrowth: '+0%',
+    ratingGrowth: '+0'
+  });
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reviewsData, businessData] = await Promise.all([
+        const [reviewsData, businessData, statsData] = await Promise.all([
           reviewService.getReviews(),
-          businessService.getBusinessDetails()
+          businessService.getBusinessDetails(),
+          businessService.getBusinessStats()
         ]);
-        setReviews(reviewsData);
+        setReviews(reviewsData || []);
         setBusiness(businessData);
+        setStats(statsData);
       } catch (error) {
         console.error('Failed to load dashboard data', error);
       } finally {
@@ -44,11 +54,11 @@ const Overview = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
             </span>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">1,245</p>
+          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">{stats.totalScans.toLocaleString()}</p>
           <div className="mt-4 flex items-center text-sm">
             <span className="text-green-500 font-medium flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-              12.5%
+              {stats.scansGrowth}
             </span>
             <span className="text-gray-400 ml-2">vs last month</span>
           </div>
@@ -61,11 +71,11 @@ const Overview = () => {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
             </span>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">4.8</p>
+          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">{stats.avgRating}</p>
           <div className="mt-4 flex items-center text-sm">
             <span className="text-green-500 font-medium flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-              0.2
+              {stats.ratingGrowth}
             </span>
             <span className="text-gray-400 ml-2">vs last month</span>
           </div>
@@ -78,9 +88,9 @@ const Overview = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
             </span>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">12</p>
+          <p className="text-4xl font-extrabold text-gray-900 mt-4 tracking-tight">{stats.internalFeedbackCount}</p>
           <div className="mt-4 flex items-center text-sm">
-            <span className="text-gray-500">Unresolved issues: 3</span>
+            <span className="text-gray-500">Unresolved issues: {stats.unresolvedIssues}</span>
           </div>
         </div>
 
@@ -92,9 +102,9 @@ const Overview = () => {
               Active
             </div>
           </div>
-          <button className="mt-6 w-full py-2 px-4 border border-white/30 rounded-lg shadow-sm text-sm font-medium hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
-            Download QR Code
-          </button>
+          <Link to="/admin/qr" className="mt-6 w-full py-2 px-4 border border-white/30 rounded-lg shadow-sm text-sm font-medium hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 text-center">
+            Design & Download QR
+          </Link>
         </div>
       </div>
 

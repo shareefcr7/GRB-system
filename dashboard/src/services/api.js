@@ -90,6 +90,10 @@ export const businessService = {
   generateQR: async () => {
     const response = await api.post('/business/generate-qr');
     return response.data;
+  },
+  getBusinessStats: async () => {
+    const response = await api.get('/business/stats');
+    return response.data;
   }
 };
 

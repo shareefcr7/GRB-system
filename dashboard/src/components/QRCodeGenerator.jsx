@@ -375,35 +375,30 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
           {/* Frame Container */}
           <div 
             id="qr-download-frame"
-            className={`transition-all duration-500 relative ${
+            className={`transition-all duration-500 relative flex ${
               frameType === 'none' ? '' : 
-              frameType === 'google' ? 'p-1 overflow-hidden rounded-[2.5rem] shadow-xl' :
+              frameType === 'google' ? 'p-1.5 overflow-hidden rounded-[2.5rem] shadow-xl' :
               'p-10 shadow-xl rounded-[3rem]'
             }`}
             style={{ 
               background: frameType === 'instagram' 
                 ? `linear-gradient(45deg, ${dotsGradient.colorStops[0].color}, ${dotsGradient.colorStops[1].color})` 
-                : frameType === 'card' ? '#f8fafc' : 
-                  frameType === 'google' ? 'white' : 'transparent',
-              padding: frameType === 'none' ? '0' : (frameType === 'google' ? '4px' : '2.5rem')
+                : frameType === 'card' ? '#f8fafc' : 'transparent',
+              padding: frameType === 'none' ? '0' : (frameType === 'google' ? '6px' : '2.5rem')
             }}
           >
             {/* Google multi-color border effect */}
             {frameType === 'google' && (
-              <div className="absolute inset-0 z-0">
-                 <div className="absolute top-0 left-0 w-1/2 h-2 bg-[#4285F4]"></div>
-                 <div className="absolute top-0 right-0 w-1/2 h-2 bg-[#EA4335]"></div>
-                 <div className="absolute bottom-0 left-0 w-1/2 h-2 bg-[#FBBC05]"></div>
-                 <div className="absolute bottom-0 right-0 w-1/2 h-2 bg-[#34A853]"></div>
-                 <div className="absolute top-0 left-0 w-2 h-1/2 bg-[#4285F4]"></div>
-                 <div className="absolute bottom-0 left-0 w-2 h-1/2 bg-[#FBBC05]"></div>
-                 <div className="absolute top-0 right-0 w-2 h-1/2 bg-[#EA4335]"></div>
-                 <div className="absolute bottom-0 right-0 w-2 h-1/2 bg-[#34A853]"></div>
+              <div className="absolute inset-0 z-0 flex flex-wrap">
+                 <div className="w-1/2 h-1/2 bg-[#4285F4]"></div>
+                 <div className="w-1/2 h-1/2 bg-[#EA4335]"></div>
+                 <div className="w-1/2 h-1/2 bg-[#FBBC05]"></div>
+                 <div className="w-1/2 h-1/2 bg-[#34A853]"></div>
               </div>
             )}
 
             <div 
-              className={`flex flex-col items-center justify-center min-w-[280px] min-h-[350px] transition-all duration-500 relative z-10 ${
+              className={`flex flex-col items-center justify-center min-w-[280px] min-h-[350px] transition-all duration-500 relative z-10 w-full h-full ${
                 frameType === 'instagram' ? 'bg-white p-8 rounded-[2.5rem] shadow-inner' : 
                 frameType === 'card' ? 'bg-white p-6 rounded-2xl border border-gray-100' : 
                 frameType === 'google' ? 'bg-white p-6 rounded-[2.2rem]' : ''

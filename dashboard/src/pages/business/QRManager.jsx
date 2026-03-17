@@ -28,7 +28,7 @@ const QRManager = () => {
     );
   }
 
-  const qrUrl = business ? `${window.location.origin}/r/${business._id}` : '';
+  const qrUrl = business ? `https://mytruefeedback.com/r/${business._id}` : '';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

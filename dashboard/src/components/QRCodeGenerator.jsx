@@ -6,6 +6,18 @@ import { toPng, toSvg } from 'html-to-image';
 
 const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', businessName = 'Your Business' }) => {
   const [url, setUrl] = useState(defaultUrl);
+  const [centerText, setCenterText] = useState('');
+
+  const generateTextLogo = (text, color) => {
+    if (!text) return null;
+    const width = Math.max(100, text.length * 22 + 40);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 100">
+      <rect x="0" y="0" width="${width}" height="100" rx="30" ry="30" fill="${color}"/>
+      <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#ffffff" text-anchor="middle" dominant-baseline="central">${text}</text>
+    </svg>`;
+    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+  };
+
   const [dotsColor, setDotsColor] = useState('#4285F4'); // Google Blue
   const [dotsGradient, setDotsGradient] = useState({
     type: 'linear',
@@ -64,9 +76,16 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
 
   useEffect(() => {
     if (qrCode) {
+      const getCenterImage = () => {
+        if (logo) return logo;
+        if (centerText) return generateTextLogo(centerText, dotsColor);
+        if (frameType === 'google') return 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\"G\"_logo.svg';
+        return null;
+      };
+
       qrCode.update({
         data: url,
-        image: logo || (frameType === 'google' ? 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\"G\"_logo.svg' : null),
+        image: getCenterImage(),
         dotsOptions: {
           color: dotsColor,
           type: dotsType,
@@ -85,7 +104,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
         },
       });
     }
-  }, [qrCode, url, dotsColor, dotsType, dotsGradient, bgColor, logo, frameType]);
+  }, [qrCode, url, dotsColor, dotsType, dotsGradient, bgColor, logo, frameType, centerText]);
 
   useEffect(() => {
     if (qrRef.current && qrCode) {
@@ -100,6 +119,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
       const reader = new FileReader();
       reader.onload = () => {
         setLogo(reader.result);
+        setCenterText('');
       };
       reader.readAsDataURL(file);
     }
@@ -312,20 +332,46 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
                 </div>
                 <h3 className="font-bold text-gray-800">Center Logo</h3>
               </div>
-              <div className="flex items-center gap-4">
-                <label className="flex-grow flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 transition-all">
-                  <Upload size={18} className="text-gray-400" />
-                  <span className="text-sm text-gray-500">Upload Image</span>
-                  <input type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} />
-                </label>
-                {(logo || frameType === 'google') && (
-                  <button 
-                    onClick={() => setLogo(null)}
-                    className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                )}
+              
+              <div className="space-y-4">
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm text-gray-500">Text as Icon (e.g. Initials)</span>
+                  <input
+                    type="text"
+                    value={centerText}
+                    onChange={(e) => {
+                      setCenterText(e.target.value);
+                      if (e.target.value) setLogo(null);
+                    }}
+                    className="w-full px-4 py-2 text-sm rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="e.g. GRB"
+                  />
+                </div>
+                
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex-grow h-px bg-gray-200"></div>
+                  <span>OR</span>
+                  <div className="flex-grow h-px bg-gray-200"></div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <label className="flex-grow flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 transition-all">
+                    <Upload size={18} className="text-gray-400" />
+                    <span className="text-sm text-gray-500">Upload Logo</span>
+                    <input type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} />
+                  </label>
+                  {(logo || centerText || frameType === 'google') && (
+                    <button 
+                      onClick={() => {
+                        setLogo(null);
+                        setCenterText('');
+                      }}
+                      className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  )}
+                </div>
               </div>
             </section>
 
@@ -444,12 +490,12 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
               }}
             >
               <div ref={qrRef} className="qr-container scale-90" />
-              {label && (
+              {(label || showStars) && (
                 <div 
                   className={`mt-4 tracking-tight text-center ${frameType === 'google' ? 'text-xl font-bold' : 'text-2xl uppercase font-black tracking-tighter'}`}
                   style={{ color: labelColor, fontFamily: labelFont }}
                 >
-                  {label}
+                  {label && <div>{label}</div>}
                   {showStars && (
                     <div className="flex justify-center mt-1 text-[#FBBC05] gap-1">
                       {[...Array(5)].map((_, i) => (

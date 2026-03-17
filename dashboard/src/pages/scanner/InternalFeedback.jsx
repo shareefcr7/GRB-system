@@ -149,6 +149,7 @@ const InternalFeedback = () => {
               id="phone"
               name="phone"
               type="tel"
+              maxLength={15}
               pattern="^\+?[0-9]{10,15}$"
               title="Please enter a valid phone number (10 to 15 digits)"
               style={getInputStyle('phone')}

@@ -33,6 +33,7 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
   const [label, setLabel] = useState('Review us on Google');
   const [labelColor, setLabelColor] = useState('#5f6368');
   const [labelFont, setLabelFont] = useState('Inter, sans-serif');
+  const [labelTransform, setLabelTransform] = useState('none');
   const [showStars, setShowStars] = useState(true);
   const [frameBgColor, setFrameBgColor] = useState('#ffffff');
   const [size, setSize] = useState(1024);
@@ -414,6 +415,19 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
                     <option value="Impact, sans-serif">Impact</option>
                   </select>
                 </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">Text Case</span>
+                  <select 
+                    value={labelTransform}
+                    onChange={(e) => setLabelTransform(e.target.value)}
+                    className="px-3 py-1 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="none">Normal</option>
+                    <option value="uppercase">Uppercase</option>
+                    <option value="lowercase">Lowercase</option>
+                    <option value="capitalize">Capitalize</option>
+                  </select>
+                </div>
                 <label className="flex items-center gap-3 cursor-pointer pt-2">
                   <input 
                     type="checkbox"
@@ -492,8 +506,8 @@ const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', busi
               <div ref={qrRef} className="qr-container scale-90" />
               {(label || showStars) && (
                 <div 
-                  className={`mt-4 tracking-tight text-center ${frameType === 'google' ? 'text-xl font-bold' : 'text-2xl uppercase font-black tracking-tighter'}`}
-                  style={{ color: labelColor, fontFamily: labelFont }}
+                  className={`mt-4 tracking-tight text-center ${frameType === 'google' ? 'text-xl font-bold' : 'text-2xl font-black tracking-tighter'}`}
+                  style={{ color: labelColor, fontFamily: labelFont, textTransform: labelTransform }}
                 >
                   {label && <div>{label}</div>}
                   {showStars && (

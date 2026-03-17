@@ -4,7 +4,7 @@ import { Download, Upload, Trash2, Layout, Palette, Type, Smartphone, Check, Sta
 import { jsPDF } from 'jspdf';
 import { toPng, toSvg } from 'html-to-image';
 
-const QRCodeGenerator = ({ defaultUrl = 'https://grb-dashboard.vercel.app', businessName = 'Your Business' }) => {
+const QRCodeGenerator = ({ defaultUrl = 'https://mytruefeedback.com', businessName = 'Your Business' }) => {
   const [url, setUrl] = useState(defaultUrl);
   const [centerText, setCenterText] = useState('');
 

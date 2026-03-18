@@ -45,6 +45,15 @@ const Overview = () => {
   };
   return (
     <div>
+      {/* Dashboard Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">Real-Time Insights for Smarter Business Decisions</h1>
+        <p className="text-gray-500 text-base max-w-3xl">
+          This dashboard provides a complete overview of your business performance with real-time data.
+          Easily track total scans, monitor customer ratings, and manage internal feedback in one place.
+        </p>
+      </div>
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 transform transition duration-300 hover:scale-105 hover:shadow-md cursor-default text-center sm:text-left">

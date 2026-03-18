@@ -19,6 +19,18 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this review?')) {
+      try {
+        await reviewService.deleteReview(id);
+        setReviews(reviews.filter(r => r._id !== id));
+      } catch (error) {
+        console.error('Failed to delete review', error);
+        alert('Failed to delete review');
+      }
+    }
+  };
+
   if (loading) {
     return <div className="text-center py-10 text-gray-500">Loading feedback data...</div>;
   }
@@ -82,16 +94,24 @@ const Reviews = () => {
                   </div>
                 )}
 
-                {review.status !== 'Resolved' && (
-                  <div className="mt-4 flex flex-col sm:flex-row sm:space-x-3 gap-3 sm:gap-0 sm:justify-end border-t border-gray-100 pt-4">
-                    <button className="w-full sm:w-auto text-sm bg-indigo-600 text-white px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500">
-                      Copy AI Reply to WhatsApp
-                    </button>
-                    <button className="w-full sm:w-auto text-sm bg-white border border-gray-300 text-gray-700 px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors focus:ring-2 focus:ring-offset-1 focus:ring-gray-200">
-                      Mark as Resolved
-                    </button>
-                  </div>
-                )}
+                <div className="mt-4 flex flex-col sm:flex-row sm:space-x-3 gap-3 sm:gap-0 sm:justify-end border-t border-gray-100 pt-4">
+                  {review.status !== 'Resolved' && (
+                    <>
+                      <button className="w-full sm:w-auto text-sm bg-indigo-600 text-white px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500">
+                        Copy AI Reply to WhatsApp
+                      </button>
+                      <button className="w-full sm:w-auto text-sm bg-white border border-gray-300 text-gray-700 px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors focus:ring-2 focus:ring-offset-1 focus:ring-gray-200">
+                        Mark as Resolved
+                      </button>
+                    </>
+                  )}
+                  <button 
+                    onClick={() => handleDelete(review._id)}
+                    className="w-full sm:w-auto text-sm bg-red-50 text-red-600 border border-red-200 px-4 py-2.5 sm:py-2 rounded-lg font-semibold hover:bg-red-100 transition-colors focus:ring-2 focus:ring-offset-1 focus:ring-red-500"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))

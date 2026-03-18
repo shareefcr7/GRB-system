@@ -113,7 +113,30 @@ const getReviews = async (req, res) => {
   }
 };
 
+// @desc    Delete a review
+// @route   DELETE /api/reviews/:id
+// @access  Private (Business Admin)
+const deleteReview = async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    // Check if the user is authorized to delete this review
+    if (review.businessId.toString() !== req.user.businessId.toString()) {
+      return res.status(401).json({ message: 'Not authorized to delete this review' });
+    }
+
+    await review.deleteOne();
+    res.json({ message: 'Review removed' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   submitReview,
   getReviews,
+  deleteReview,
 };

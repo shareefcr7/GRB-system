@@ -24,7 +24,6 @@ const ReviewScanner = () => {
         console.error('Failed to load business', error);
       } finally {
         setLoading(false);
-        setTimeout(() => setShowCard(true), 100);
       }
     };
     fetchBusiness();
@@ -43,28 +42,16 @@ const ReviewScanner = () => {
         });
         
         // Immediate redirect to prevent mobile browser pop-up blockers
-        setTimeout(() => {
-          window.location.replace(business.googleReviewLink);
-        }, 400); 
+        window.location.replace(business.googleReviewLink);
       } else {
-        setTimeout(() => navigate(`/thank-you`), 400);
+        navigate(`/thank-you`);
       }
     } else {
-      setTimeout(() => navigate(`/feedback/${businessId}?rating=${selectedRating}`), 400);
+      navigate(`/feedback/${businessId}?rating=${selectedRating}`);
     }
   };
 
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.loadingSpinner}></div>
-        <p style={styles.loadingText}>Loading experience...</p>
-        <style>{spinnerKeyframes}</style>
-      </div>
-    );
-  }
-
-  if (!business) {
+  if (!loading && !business) {
     return (
       <div style={styles.errorContainer}>
         <div style={styles.errorCard}>
@@ -88,16 +75,12 @@ const ReviewScanner = () => {
       <div style={styles.bgOverlay}></div>
       <div style={styles.bgGlow}></div>
 
-      <div style={{
-        ...styles.card,
-        opacity: showCard ? 1 : 0,
-        transform: showCard ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
-      }}>
+      <div style={styles.card}>
         {/* Business Avatar */}
         <div style={styles.avatarRing}>
           <div style={styles.avatar}>
             <span style={styles.avatarLetter}>
-              {business.name.charAt(0).toUpperCase()}
+              {business ? business.name.charAt(0).toUpperCase() : ''}
             </span>
           </div>
         </div>
@@ -106,7 +89,7 @@ const ReviewScanner = () => {
         <p style={styles.subtext}>
           How was your experience at
         </p>
-        <p style={styles.businessName}>{business.name}</p>
+        <p style={styles.businessName}>{business ? business.name : 'Wait...'}</p>
 
         {/* Emoji Indicator */}
         <div style={styles.emojiContainer}>
@@ -143,7 +126,7 @@ const ReviewScanner = () => {
                   if (submitted) return;
                   setRating(star);
                   if (navigator.vibrate) navigator.vibrate(50);
-                  setTimeout(() => handleRatingSubmit(star), 600);
+                  setTimeout(() => handleRatingSubmit(star), 150);
                 }}
                 disabled={submitted}
               >
@@ -238,7 +221,7 @@ const styles = {
     padding: '40px 32px 32px',
     textAlign: 'center',
     boxShadow: '0 25px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-    transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+    transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
   },
   avatarRing: {
     width: '90px',

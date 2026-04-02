@@ -41,11 +41,7 @@ const ThankYou = () => {
         ))}
       </div>
 
-      <div style={{
-        ...styles.card,
-        opacity: showContent ? 1 : 0,
-        transform: showContent ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)',
-      }}>
+      <div style={styles.card}>
         {/* Animated check circle */}
         <div style={{
           ...styles.checkCircle,
@@ -73,11 +69,7 @@ const ThankYou = () => {
         </div>
 
         {/* Success emoji */}
-        <div style={{
-          ...styles.successEmoji,
-          opacity: showContent ? 1 : 0,
-          transform: showContent ? 'scale(1)' : 'scale(0)',
-        }}>
+        <div style={styles.successEmoji}>
           🎉
         </div>
 

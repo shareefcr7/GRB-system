@@ -68,11 +68,7 @@ const InternalFeedback = () => {
       <div style={styles.bgOverlay}></div>
       <div style={styles.bgGlow}></div>
 
-      <div style={{
-        ...styles.card,
-        opacity: showCard ? 1 : 0,
-        transform: showCard ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
-      }}>
+      <div style={styles.card}>
         {/* Emoji + Stars */}
         <div style={styles.ratingDisplay}>
           <span style={styles.emojiLarge}>{EMOJIS[rating - 1]}</span>

@@ -218,10 +218,10 @@ export default function Home() {
                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${s.color} flex items-center justify-center text-2xl flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>{s.icon}</div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">{s.n}</span>
-                        <h3 className="font-bold text-slate-900 text-lg" style={{fontFamily:'var(--font-space-grotesk)'}}>{s.title}</h3>
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{s.n}</span>
+                        <h3 className="font-bold text-white text-lg" style={{fontFamily:'var(--font-space-grotesk)'}}>{s.title}</h3>
                       </div>
-                      <p className="text-sm text-slate-700">{s.desc}</p>
+                      <p className="text-sm text-slate-400">{s.desc}</p>
                     </div>
                     <svg className="w-5 h-5 text-slate-600 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                   </div>
@@ -253,7 +253,7 @@ export default function Home() {
               <div key={i} className="glass-card rounded-2xl p-6 text-center group relative"><QRBrackets />
                 <span className="text-3xl mb-3 block group-hover:scale-125 transition-transform">{s.i}</span>
                 <p className="text-3xl md:text-4xl font-black text-slate-900 mb-1" style={{fontFamily:'var(--font-space-grotesk)'}}>{s.v}</p>
-                <p className="text-xs text-slate-600 uppercase tracking-wider">{s.l}</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wider">{s.l}</p>
               </div>
             ))}
           </div>
@@ -316,13 +316,13 @@ export default function Home() {
                 <QRBrackets />
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-10 h-10 rounded-xl bg-${p.color}-500/10 border border-${p.color}-500/20 flex items-center justify-center`}><span className={`text-${p.color}-400`}>{p.icon}</span></div>
-                  <span className="font-bold text-slate-900" style={{fontFamily:'var(--font-space-grotesk)'}}>{p.name}</span>
+                  <span className="font-bold text-white" style={{fontFamily:'var(--font-space-grotesk)'}}>{p.name}</span>
                 </div>
-                <p className="text-sm text-slate-600 mb-6">{p.pop?'Ideal for growing businesses':'Perfect for '+p.name.toLowerCase()+' needs'}</p>
-                <div className="mb-6"><span className="text-5xl font-black text-slate-900" style={{fontFamily:'var(--font-space-grotesk)'}}>₹{p.price}</span><span className="text-slate-600 text-sm"> /month</span></div>
+                <p className="text-sm text-slate-400 mb-6">{p.pop?'Ideal for growing businesses':'Perfect for '+p.name.toLowerCase()+' needs'}</p>
+                <div className="mb-6"><span className="text-5xl font-black text-white" style={{fontFamily:'var(--font-space-grotesk)'}}>₹{p.price}</span><span className="text-slate-500 text-sm"> /month</span></div>
                 <div className="h-px bg-black/5 mb-6"></div>
                 <ul className="space-y-3 mb-8 flex-1">
-                  {p.features.map((f,j)=>(<li key={j} className="flex items-center gap-3 text-sm text-slate-700"><svg className={`w-4 h-4 text-${p.color}-400 flex-shrink-0`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>{f}</li>))}
+                  {p.features.map((f,j)=>(<li key={j} className="flex items-center gap-3 text-sm text-slate-400"><svg className={`w-4 h-4 text-${p.color}-400 flex-shrink-0`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>{f}</li>))}
                 </ul>
                 <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl text-slate-900 ${p.pop?'btn-qr':'border border-slate-300 hover:border-amber-500/50 hover:bg-amber-500/5 transition-all'}`}>Choose Plan</a>
               </div>
@@ -343,8 +343,8 @@ export default function Home() {
               <div className="p-10 lg:p-14 flex items-center justify-center bg-gradient-to-br from-amber-500/5 to-orange-500/5">
                 <div className="text-center">
                   <div className="w-28 h-28 mx-auto bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-500 rounded-full flex items-center justify-center text-slate-900 text-4xl font-black mb-5 shadow-2xl shadow-orange-500/20">RK</div>
-                  <p className="text-xl font-bold text-slate-900">Rajesh Kumar</p>
-                  <p className="text-sm text-slate-700">Restaurant Owner, Mumbai</p>
+                  <p className="text-xl font-bold text-white">Rajesh Kumar</p>
+                  <p className="text-sm text-slate-400">Restaurant Owner, Mumbai</p>
                   <div className="flex items-center justify-center gap-1 mt-3">{[1,2,3,4,5].map(s=><span key={s} className="text-yellow-400 text-lg">★</span>)}</div>
                 </div>
               </div>
@@ -353,7 +353,7 @@ export default function Home() {
                   <span className="px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/10 text-orange-400 text-xs font-semibold">Professional Plan</span>
                   <span className="px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">Verified</span>
                 </div>
-                <div className="text-xl text-slate-800 leading-relaxed mb-6 italic">&quot;GRB&apos;s QR system transformed our reviews. Our Google rating went from <span className="text-emerald-400 font-bold not-italic">3.2 to 4.7 stars</span> in just 3 months. The smart QR filtering ensures only happy customers leave public reviews.&quot;</div>
+                <div className="text-xl text-slate-300 leading-relaxed mb-6 italic">&quot;GRB&apos;s QR system transformed our reviews. Our Google rating went from <span className="text-emerald-400 font-bold not-italic">3.2 to 4.7 stars</span> in just 3 months. The smart QR filtering ensures only happy customers leave public reviews.&quot;</div>
                 <div className="flex items-center gap-4">
                   <div className="flex -space-x-2">{['bg-amber-500','bg-orange-500','bg-emerald-500'].map((c,i)=>(<div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-[#0a0f1e] flex items-center justify-center text-[10px] font-bold text-slate-900`}>{['R','S','P'][i]}</div>))}</div>
                   <span className="text-xs text-slate-600">+497 businesses growing with GRB</span>
@@ -370,12 +370,12 @@ export default function Home() {
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-amber-600/10 via-orange-600/10 to-emerald-500/10 rounded-3xl blur-3xl"></div>
             <div className="glass-card rounded-3xl p-12 md:p-20 relative"><QRBrackets />
-              <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight heading-premium heading-glow text-auto-glow"><span className="text-slate-900">Ready to boost your </span><span className="text-gradient-qr heading-underline">Google Reviews</span><span className="text-slate-900">?</span></h2>
-              <p className="text-lg text-slate-700 mb-10 max-w-2xl mx-auto leading-relaxed">Scan. Filter. Grow. Take control of your online reputation with GRB&apos;s smart QR system.</p>
+              <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight heading-premium heading-glow text-auto-glow"><span className="text-white">Ready to boost your </span><span className="text-gradient-qr heading-underline">Google Reviews</span><span className="text-white">?</span></h2>
+              <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">Scan. Filter. Grow. Take control of your online reputation with GRB&apos;s smart QR system.</p>
               <a href={`${d}/register`} className="btn-qr inline-flex px-12 py-5 text-lg font-bold rounded-2xl text-slate-900 items-center gap-3 animate-pulse-glow">
                 Get Started Today <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
               </a>
-              <p className="text-sm text-slate-600 mt-6">14-day free trial · No credit card required</p>
+              <p className="text-sm text-slate-500 mt-6">14-day free trial · No credit card required</p>
             </div>
           </div>
         </div>

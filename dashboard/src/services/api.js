@@ -6,11 +6,19 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// Interceptor to add token to headers
-api.interceptors.request.use((config) => {
+let cachedToken = null;
+
+try {
   const user = JSON.parse(localStorage.getItem('user'));
   if (user && user.token) {
-    config.headers.Authorization = `Bearer ${user.token}`;
+    cachedToken = user.token;
+  }
+} catch (e) {}
+
+// Interceptor to add token to headers
+api.interceptors.request.use((config) => {
+  if (cachedToken) {
+    config.headers.Authorization = `Bearer ${cachedToken}`;
   }
   return config;
 });
@@ -20,6 +28,7 @@ export const authService = {
     const response = await api.post('/auth/login', { email, password });
     if (response.data.token) {
       localStorage.setItem('user', JSON.stringify(response.data));
+      cachedToken = response.data.token;
     }
     return response.data;
   },
@@ -27,11 +36,13 @@ export const authService = {
     const response = await api.post('/auth/register-business', data);
     if (response.data.token) {
       localStorage.setItem('user', JSON.stringify(response.data));
+      cachedToken = response.data.token;
     }
     return response.data;
   },
   logout: () => {
     localStorage.removeItem('user');
+    cachedToken = null;
   }
 };
 

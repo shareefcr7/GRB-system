@@ -6,6 +6,7 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Business',
       required: true,
+      index: true,
     },
     customerName: {
       type: String,

@@ -1,12 +1,30 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 
 const app = express();
 
 // Connect to Database
 connectDB();
+
+// Security Middleware
+app.use(helmet());
+
+// Rate limiting for auth routes to prevent brute force
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Limit each IP to 50 login/register requests per windowMs
+  message: { message: 'Too many requests, please try again later.' }
+});
+
+// General rate limit for all API routes
+const apiLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 500, // Limit each IP to 500 requests per windowMs
+});
 
 // Middleware
 const allowedOrigins = [
@@ -32,7 +50,8 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/', apiLimiter); // Apply general rate limiting
+app.use('/api/auth', authLimiter, require('./routes/authRoutes')); // Stricter for auth
 app.use('/api/business', require('./routes/businessRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/billing', require('./routes/billingRoutes'));

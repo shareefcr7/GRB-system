@@ -98,26 +98,43 @@ const getBusinessStats = async (req, res) => {
   try {
     const businessId = req.user.businessId;
 
-    // We can count all reviews as "Scan Intents"
-    const allReviews = await Review.find({ businessId });
-    
-    const totalScans = allReviews.length;
-    
-    // Average rating
-    const avgRating = allReviews.length > 0 
-      ? (allReviews.reduce((acc, r) => acc + r.rating, 0) / allReviews.length).toFixed(1)
-      : 0;
+    const mongoose = require('mongoose');
+    const stats = await Review.aggregate([
+      { $match: { businessId: new mongoose.Types.ObjectId(businessId) } },
+      {
+        $group: {
+          _id: null,
+          totalScans: { $sum: 1 },
+          avgRating: { $avg: '$rating' },
+          internalFeedbackCount: {
+            $sum: { $cond: [{ $lt: ['$rating', 4] }, 1, 0] }
+          },
+          unresolvedIssues: {
+            $sum: {
+              $cond: [
+                { $and: [{ $lt: ['$rating', 4] }, { $eq: ['$resolutionStatus', 'Pending'] }] },
+                1,
+                0
+              ]
+            }
+          }
+        }
+      }
+    ]);
 
-    // Internal Feedback (1-3 stars)
-    const internalFeedbackCount = allReviews.filter(r => r.rating < 4).length;
-    const unresolvedIssues = allReviews.filter(r => r.rating < 4 && r.resolutionStatus === 'Pending').length;
+    const result = stats[0] || {
+      totalScans: 0,
+      avgRating: 0,
+      internalFeedbackCount: 0,
+      unresolvedIssues: 0,
+    };
 
     res.json({
-      totalScans,
-      avgRating,
-      internalFeedbackCount,
-      unresolvedIssues,
-      scansGrowth: '+12.5%', // Mocked growth for now as we don't have historical scan logs
+      totalScans: result.totalScans,
+      avgRating: result.avgRating ? result.avgRating.toFixed(1) : 0,
+      internalFeedbackCount: result.internalFeedbackCount,
+      unresolvedIssues: result.unresolvedIssues,
+      scansGrowth: '+12.5%', // Mocked growth for now
       ratingGrowth: '+0.1'
     });
   } catch (error) {

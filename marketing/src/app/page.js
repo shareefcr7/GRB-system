@@ -12,7 +12,7 @@ const QRBrackets = () => (
 const QRPixelGrid = ({ className = '' }) => (
   <svg className={`absolute opacity-[0.04] ${className}`} width="200" height="200" viewBox="0 0 200 200">
     {[0,1,2,3,4,5,6,7].map(r => [0,1,2,3,4,5,6,7].map(c => (
-      Math.random() > 0.4 && <rect key={`${r}-${c}`} x={c*25} y={r*25} width="20" height="20" rx="3" fill="currentColor" className="text-blue-400"/>
+      Math.random() > 0.4 && <rect key={`${r}-${c}`} x={c*25} y={r*25} width="20" height="20" rx="3" fill="currentColor" className="text-amber-400"/>
     )))}
   </svg>
 );
@@ -20,13 +20,13 @@ const QRPixelGrid = ({ className = '' }) => (
 const FloatingQR = ({ size = 60, className = '', delay = '0s' }) => (
   <div className={`absolute ${className}`} style={{ animationDelay: delay }}>
     <svg width={size} height={size} viewBox="0 0 60 60" fill="none" className="opacity-10">
-      <rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-blue-400"/>
-      <rect x="6" y="6" width="8" height="8" rx="1" fill="currentColor" className="text-blue-400"/>
-      <rect x="42" y="2" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-blue-400"/>
-      <rect x="46" y="6" width="8" height="8" rx="1" fill="currentColor" className="text-blue-400"/>
-      <rect x="2" y="42" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-blue-400"/>
-      <rect x="6" y="46" width="8" height="8" rx="1" fill="currentColor" className="text-blue-400"/>
-      <rect x="24" y="24" width="12" height="12" rx="2" fill="currentColor" className="text-cyan-400" opacity="0.5"/>
+      <rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-amber-400"/>
+      <rect x="6" y="6" width="8" height="8" rx="1" fill="currentColor" className="text-amber-400"/>
+      <rect x="42" y="2" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-amber-400"/>
+      <rect x="46" y="6" width="8" height="8" rx="1" fill="currentColor" className="text-amber-400"/>
+      <rect x="2" y="42" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" className="text-amber-400"/>
+      <rect x="6" y="46" width="8" height="8" rx="1" fill="currentColor" className="text-amber-400"/>
+      <rect x="24" y="24" width="12" height="12" rx="2" fill="currentColor" className="text-orange-400" opacity="0.5"/>
     </svg>
   </div>
 );
@@ -34,9 +34,9 @@ const FloatingQR = ({ size = 60, className = '', delay = '0s' }) => (
 export default function Home() {
   const d = "https://mytruefeedback.com";
   const steps = [
-    { n:'01', icon:'👤', title:'Merchant Sign Up', desc:'Merchant signs up and sets up their business profile on GRB dashboard', color:'from-blue-500 to-cyan-400' },
-    { n:'02', icon:'🔲', title:'QR Code Generated', desc:'Branded QR code is automatically generated for store display', color:'from-purple-500 to-pink-400' },
-    { n:'03', icon:'📱', title:'Customer Scans QR', desc:'Customers scan the QR code placed at your store location', color:'from-cyan-500 to-emerald-400' },
+    { n:'01', icon:'👤', title:'Merchant Sign Up', desc:'Merchant signs up and sets up their business profile on GRB dashboard', color:'from-amber-500 to-orange-400' },
+    { n:'02', icon:'🔲', title:'QR Code Generated', desc:'Branded QR code is automatically generated for store display', color:'from-yellow-500 to-pink-400' },
+    { n:'03', icon:'📱', title:'Customer Scans QR', desc:'Customers scan the QR code placed at your store location', color:'from-orange-500 to-emerald-400' },
     { n:'04', icon:'⭐', title:'Google Reviews Redirect', desc:'High scores automatically redirect happy customers to leave a Google Review', color:'from-amber-500 to-orange-400' },
     { n:'05', icon:'🔒', title:'Private Feedback Stored', desc:'Low-score feedback is stored internally and sent directly to management', color:'from-emerald-500 to-teal-400' },
   ];
@@ -53,28 +53,28 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden relative">
       {/* QR-Themed Ambient Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="qr-grid-bg absolute inset-0"></div>
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-600/8 rounded-full blur-[150px] animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/8 rounded-full blur-[150px] animate-float-reverse"></div>
-        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[120px]"></div>
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-600/8 rounded-full blur-[150px] animate-float"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-yellow-600/8 rounded-full blur-[150px] animate-float-reverse"></div>
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[120px]"></div>
         <FloatingQR size={80} className="top-[15%] left-[8%] float-qr-1" />
         <FloatingQR size={50} className="top-[25%] right-[10%] float-qr-2" delay="1s" />
         <FloatingQR size={70} className="bottom-[30%] left-[5%] float-qr-3" delay="2s" />
         <FloatingQR size={40} className="top-[60%] right-[8%] float-qr-1" delay="3s" />
-        <QRPixelGrid className="top-[10%] right-[15%] text-blue-500 qr-deco-1" />
-        <QRPixelGrid className="bottom-[20%] left-[10%] text-purple-500 qr-deco-2" />
+        <QRPixelGrid className="top-[10%] right-[15%] text-amber-500 qr-deco-1" />
+        <QRPixelGrid className="bottom-[20%] left-[10%] text-yellow-500 qr-deco-2" />
       </div>
 
       {/* Navbar */}
       <nav className="fixed w-full z-50">
-        <div className="absolute inset-0 bg-[#030712]/60 backdrop-blur-2xl border-b border-white/5"></div>
+        <div className="absolute inset-0 bg-[#050505]/60 backdrop-blur-2xl border-b border-white/5"></div>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <div className="flex justify-between items-center h-20">
             <a href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all relative">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:shadow-amber-500/40 transition-all relative">
                 <span className="font-black text-white text-lg" style={{fontFamily:'var(--font-space-grotesk)'}}>G</span>
               </div>
               <span className="font-bold text-xl tracking-tight text-white" style={{fontFamily:'var(--font-space-grotesk)'}}>GRB</span>
@@ -96,9 +96,9 @@ export default function Home() {
       <section id="home" className="relative pt-32 pb-20 lg:pt-44 lg:pb-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/20 bg-blue-500/5 mb-10 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-amber-500/20 bg-amber-500/5 mb-10 animate-fade-in-up">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              <span className="text-sm font-medium text-blue-300">🔲 Smart QR Technology · Trusted by 500+ Businesses</span>
+              <span className="text-sm font-medium text-amber-300">🔲 Smart QR Technology · Trusted by 500+ Businesses</span>
             </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-8 heading-premium heading-glow text-breathe text-auto-glow">
               <span className="text-white">Smart </span>
@@ -123,10 +123,10 @@ export default function Home() {
 
             {/* Dashboard Preview with QR Brackets */}
             <div className="relative max-w-5xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-500/20 rounded-3xl blur-3xl -z-10 scale-95"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 via-yellow-600/20 to-orange-500/20 rounded-3xl blur-3xl -z-10 scale-95"></div>
               <div className="relative">
                 <QRBrackets />
-                <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0a0f1e]/90 backdrop-blur-xl shadow-2xl relative">
+                <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a0a]/90 backdrop-blur-xl shadow-2xl relative">
                   <div className="qr-scan-line"></div>
                   <div className="flex items-center gap-2 px-5 py-3.5 bg-white/[0.03] border-b border-white/5">
                     <div className="flex gap-2">
@@ -144,21 +144,21 @@ export default function Home() {
                   <div className="flex min-h-[380px]">
                     <div className="w-56 bg-gradient-to-b from-[#0f172a] to-[#0a0f1e] border-r border-white/5 p-5 hidden sm:flex flex-col">
                       <div className="flex items-center gap-2 mb-8">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"><span className="text-xs font-bold">G</span></div>
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center"><span className="text-xs font-bold">G</span></div>
                         <span className="font-bold text-sm">GRB Dashboard</span>
                       </div>
                       <div className="space-y-1 flex-1">
                         {[['📊','Overview',true],['⭐','Reviews'],['🔲','QR Codes'],['📈','Analytics']].map(([ic,lb,act],i)=>(
-                          <div key={i} className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-colors ${act?'bg-blue-500/10 border border-blue-500/20 text-blue-400 font-medium':'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}>
+                          <div key={i} className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-colors ${act?'bg-amber-500/10 border border-amber-500/20 text-amber-400 font-medium':'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}>
                             <span>{ic}</span> {lb}
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="flex-1 p-6 bg-[#060a14]">
+                    <div className="flex-1 p-6 bg-[#080808]">
                       <div className="flex items-center justify-between mb-6">
                         <div><p className="text-xs text-slate-500">Welcome back</p><p className="text-sm font-semibold text-white">Rajesh Kumar</p></div>
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-xs font-bold">R</div>
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-orange-500 flex items-center justify-center text-xs font-bold">R</div>
                       </div>
                       <div className="grid grid-cols-3 gap-3 mb-5">
                         {[['Total Reviews','847','↑ 12%','emerald'],['Google Rating','4.7★','↑ 0.3','amber'],['Filtered','156','Caught','blue']].map(([l,v,s,c],i)=>(
@@ -174,7 +174,7 @@ export default function Home() {
                           <p className="text-xs font-semibold text-slate-400 mb-3">Review Trend</p>
                           <div className="flex items-end gap-1.5 h-16">
                             {[35,45,32,55,48,62,58,70,65,80,75,90].map((h,i)=>(
-                              <div key={i} className="flex-1 rounded-t bg-gradient-to-t from-blue-600 to-cyan-400 opacity-80" style={{height:`${h}%`}}></div>
+                              <div key={i} className="flex-1 rounded-t bg-gradient-to-t from-amber-600 to-orange-400 opacity-80" style={{height:`${h}%`}}></div>
                             ))}
                           </div>
                         </div>
@@ -182,7 +182,7 @@ export default function Home() {
                           <p className="text-xs font-semibold text-slate-400 mb-3">QR Scan Activity</p>
                           <div className="space-y-2">
                             {[['Today',85],['This Week',65],['This Month',45]].map(([l,w],i)=>(
-                              <div key={i} className="flex items-center gap-2"><span className="text-[10px] text-slate-500 w-16">{l}</span><div className="flex-1 bg-white/5 rounded-full h-2"><div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-2 rounded-full" style={{width:`${w}%`}}></div></div></div>
+                              <div key={i} className="flex items-center gap-2"><span className="text-[10px] text-slate-500 w-16">{l}</span><div className="flex-1 bg-white/5 rounded-full h-2"><div className="bg-gradient-to-r from-amber-500 to-orange-400 h-2 rounded-full" style={{width:`${w}%`}}></div></div></div>
                             ))}
                           </div>
                         </div>
@@ -223,14 +223,14 @@ export default function Home() {
                       </div>
                       <p className="text-sm text-slate-400">{s.desc}</p>
                     </div>
-                    <svg className="w-5 h-5 text-slate-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    <svg className="w-5 h-5 text-slate-600 group-hover:text-amber-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                   </div>
                 </div>
               ))}
             </div>
             <div className="lg:sticky lg:top-32">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/5 mb-6">
-                <span className="text-xs font-semibold text-purple-400 uppercase tracking-wider">How it Works</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-yellow-500/20 bg-yellow-500/5 mb-6">
+                <span className="text-xs font-semibold text-yellow-400 uppercase tracking-wider">How it Works</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black leading-tight mb-6 heading-premium heading-glow">
                 <span className="text-white">GRB </span><span className="text-gradient-qr heading-underline">Workflow</span>
@@ -259,8 +259,8 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 mb-6">
-                <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">Why GRB</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/5 mb-6">
+                <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">Why GRB</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black leading-tight mb-6 heading-premium heading-glow">
                 <span className="text-white">Intelligent QR filtering for </span><span className="text-gradient-qr heading-underline">modern businesses</span>
@@ -268,20 +268,20 @@ export default function Home() {
               <p className="text-lg text-slate-400 mb-8 leading-relaxed">GRB Software helps businesses automatically direct satisfied customers to Google Reviews while handling concerns privately.</p>
               <div className="space-y-4">
                 {['Filter negative reviews before they go public','AI-powered sentiment analysis','Real-time dashboard & analytics','Custom branded QR codes'].map((f,i)=>(
-                  <div key={i} className="flex items-center gap-3"><div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0"><svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div><span className="text-slate-300">{f}</span></div>
+                  <div key={i} className="flex items-center gap-3"><div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0"><svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div><span className="text-slate-300">{f}</span></div>
                 ))}
               </div>
             </div>
             <div className="flex justify-center">
               <div className="relative animate-float">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-[3rem] blur-2xl scale-90"></div>
-                <div className="w-72 bg-[#0a0f1e] rounded-[2.5rem] border border-white/10 p-3 relative shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-[3rem] blur-2xl scale-90"></div>
+                <div className="w-72 bg-[#0a0a0a] rounded-[2.5rem] border border-white/10 p-3 relative shadow-2xl">
                   <QRBrackets />
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-[#030712] rounded-b-2xl z-10"></div>
-                  <div className="w-full bg-[#060a14] rounded-[2rem] overflow-hidden relative">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-[#050505] rounded-b-2xl z-10"></div>
+                  <div className="w-full bg-[#080808] rounded-[2rem] overflow-hidden relative">
                     <div className="qr-scan-line"></div>
-                    <div className="bg-gradient-to-br from-blue-600 to-cyan-600 p-6 pt-10">
-                      <p className="text-xs text-blue-200 mb-1">🔲 Scan & Rate</p>
+                    <div className="bg-gradient-to-br from-amber-600 to-orange-600 p-6 pt-10">
+                      <p className="text-xs text-amber-200 mb-1">🔲 Scan & Rate</p>
                       <div className="flex items-center gap-1 mb-3">{[1,2,3,4,5].map(s=><span key={s} className="text-yellow-300 text-xl">★</span>)}</div>
                       <p className="text-white font-bold text-lg">How was your experience?</p>
                     </div>
@@ -290,7 +290,7 @@ export default function Home() {
                         <p className="text-xs text-slate-500 mb-1">Your Feedback</p>
                         <p className="text-sm text-slate-300">Amazing food and service! Will visit again...</p>
                       </div>
-                      <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl py-3.5 text-sm font-bold">Submit Review →</button>
+                      <button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl py-3.5 text-sm font-bold">Submit Review →</button>
                       <p className="text-[10px] text-slate-600 text-center">Powered by GRB Software</p>
                     </div>
                   </div>
@@ -305,14 +305,14 @@ export default function Home() {
       <section id="pricing" className="py-28 relative z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5 mb-6"><span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Pricing Plans</span></div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 mb-6"><span className="text-xs font-semibold text-amber-400 uppercase tracking-wider">Pricing Plans</span></div>
             <h2 className="text-4xl md:text-6xl font-black mb-4 heading-premium heading-glow"><span className="text-white">Pick your </span><span className="text-gradient-qr heading-underline">perfect plan</span></h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">Boost your Google Reviews with smart QR filtering technology.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {plans.map((p,i)=>(
-              <div key={i} className={`rounded-3xl p-8 flex flex-col relative ${p.pop?'bg-gradient-to-b from-blue-600/10 via-purple-600/5 to-transparent border border-blue-500/20 animate-border-glow shadow-lg shadow-blue-500/5':'glass-card'}`}>
-                {p.pop&&<div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-xs font-bold text-white shadow-lg shadow-blue-500/30">Most Popular</div>}
+              <div key={i} className={`rounded-3xl p-8 flex flex-col relative ${p.pop?'bg-gradient-to-b from-amber-600/10 via-yellow-600/5 to-transparent border border-amber-500/20 animate-border-glow shadow-lg shadow-amber-500/5':'glass-card'}`}>
+                {p.pop&&<div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-xs font-bold text-white shadow-lg shadow-amber-500/30">Most Popular</div>}
                 <QRBrackets />
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-10 h-10 rounded-xl bg-${p.color}-500/10 border border-${p.color}-500/20 flex items-center justify-center`}><span className={`text-${p.color}-400`}>{p.icon}</span></div>
@@ -324,7 +324,7 @@ export default function Home() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {p.features.map((f,j)=>(<li key={j} className="flex items-center gap-3 text-sm text-slate-400"><svg className={`w-4 h-4 text-${p.color}-400 flex-shrink-0`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>{f}</li>))}
                 </ul>
-                <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl text-white ${p.pop?'btn-qr':'border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all'}`}>Choose Plan</a>
+                <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl text-white ${p.pop?'btn-qr':'border border-white/10 hover:border-amber-500/50 hover:bg-amber-500/5 transition-all'}`}>Choose Plan</a>
               </div>
             ))}
           </div>
@@ -340,9 +340,9 @@ export default function Home() {
           </div>
           <div className="glass-card rounded-3xl overflow-hidden relative"><QRBrackets />
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="p-10 lg:p-14 flex items-center justify-center bg-gradient-to-br from-blue-500/5 to-cyan-500/5">
+              <div className="p-10 lg:p-14 flex items-center justify-center bg-gradient-to-br from-amber-500/5 to-orange-500/5">
                 <div className="text-center">
-                  <div className="w-28 h-28 mx-auto bg-gradient-to-br from-blue-400 via-cyan-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-4xl font-black mb-5 shadow-2xl shadow-cyan-500/20">RK</div>
+                  <div className="w-28 h-28 mx-auto bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-4xl font-black mb-5 shadow-2xl shadow-orange-500/20">RK</div>
                   <p className="text-xl font-bold text-white">Rajesh Kumar</p>
                   <p className="text-sm text-slate-400">Restaurant Owner, Mumbai</p>
                   <div className="flex items-center justify-center gap-1 mt-3">{[1,2,3,4,5].map(s=><span key={s} className="text-yellow-400 text-lg">★</span>)}</div>
@@ -350,12 +350,12 @@ export default function Home() {
               </div>
               <div className="p-10 lg:p-14 flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/10 text-cyan-400 text-xs font-semibold">Professional Plan</span>
+                  <span className="px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/10 text-orange-400 text-xs font-semibold">Professional Plan</span>
                   <span className="px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">Verified</span>
                 </div>
                 <div className="text-xl text-slate-300 leading-relaxed mb-6 italic">&quot;GRB&apos;s QR system transformed our reviews. Our Google rating went from <span className="text-emerald-400 font-bold not-italic">3.2 to 4.7 stars</span> in just 3 months. The smart QR filtering ensures only happy customers leave public reviews.&quot;</div>
                 <div className="flex items-center gap-4">
-                  <div className="flex -space-x-2">{['bg-blue-500','bg-cyan-500','bg-emerald-500'].map((c,i)=>(<div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-[#0a0f1e] flex items-center justify-center text-[10px] font-bold text-white`}>{['R','S','P'][i]}</div>))}</div>
+                  <div className="flex -space-x-2">{['bg-amber-500','bg-orange-500','bg-emerald-500'].map((c,i)=>(<div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-[#0a0f1e] flex items-center justify-center text-[10px] font-bold text-white`}>{['R','S','P'][i]}</div>))}</div>
                   <span className="text-xs text-slate-500">+497 businesses growing with GRB</span>
                 </div>
               </div>
@@ -368,7 +368,7 @@ export default function Home() {
       <section className="py-28 relative z-10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-cyan-600/10 to-emerald-500/10 rounded-3xl blur-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-600/10 via-orange-600/10 to-emerald-500/10 rounded-3xl blur-3xl"></div>
             <div className="glass-card rounded-3xl p-12 md:p-20 relative"><QRBrackets />
               <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight heading-premium heading-glow text-auto-glow"><span className="text-white">Ready to boost your </span><span className="text-gradient-qr heading-underline">Google Reviews</span><span className="text-white">?</span></h2>
               <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">Scan. Filter. Grow. Take control of your online reputation with GRB&apos;s smart QR system.</p>
@@ -387,7 +387,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center"><span className="font-black text-white text-lg" style={{fontFamily:'var(--font-space-grotesk)'}}>G</span></div>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center"><span className="font-black text-white text-lg" style={{fontFamily:'var(--font-space-grotesk)'}}>G</span></div>
                 <span className="font-bold text-xl text-white" style={{fontFamily:'var(--font-space-grotesk)'}}>GRB Software</span>
               </div>
               <p className="text-sm text-slate-500 mb-6 leading-relaxed">Smart QR-based review management for modern Indian businesses.</p>

@@ -43,4 +43,7 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add index for faster sorting by date in the dashboard
+reviewSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('Review', reviewSchema);

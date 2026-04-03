@@ -1,6 +1,10 @@
 const Business = require('../models/Business');
 const Review = require('../models/Review');
 const QRCode = require('qrcode');
+const NodeCache = require('node-cache');
+
+// Initialize cache with 1 minute expiration to improve performance
+const statsCache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
 
 // @desc    Get business details
 // @route   GET /api/business
@@ -98,6 +102,14 @@ const getBusinessStats = async (req, res) => {
   try {
     const businessId = req.user.businessId;
 
+    // Check if stats are in cache
+    const cacheKey = `stats_${businessId}`;
+    const cachedStats = statsCache.get(cacheKey);
+
+    if (cachedStats) {
+      return res.json(cachedStats);
+    }
+
     const mongoose = require('mongoose');
     const stats = await Review.aggregate([
       { $match: { businessId: new mongoose.Types.ObjectId(businessId) } },
@@ -129,14 +141,19 @@ const getBusinessStats = async (req, res) => {
       unresolvedIssues: 0,
     };
 
-    res.json({
+    const finalResult = {
       totalScans: result.totalScans,
       avgRating: result.avgRating ? result.avgRating.toFixed(1) : 0,
       internalFeedbackCount: result.internalFeedbackCount,
       unresolvedIssues: result.unresolvedIssues,
       scansGrowth: '+12.5%', // Mocked growth for now
       ratingGrowth: '+0.1'
-    });
+    };
+
+    // Save to cache
+    statsCache.set(cacheKey, finalResult);
+
+    res.json(finalResult);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

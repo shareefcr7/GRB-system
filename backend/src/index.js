@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -12,6 +13,7 @@ connectDB();
 
 // Security Middleware
 app.use(helmet());
+app.use(compression()); // Compress all responses to speed up loading
 
 // Rate limiting for auth routes to prevent brute force
 const authLimiter = rateLimit({

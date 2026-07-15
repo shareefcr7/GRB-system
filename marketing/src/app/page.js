@@ -432,7 +432,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen mesh-gradient-bg overflow-x-hidden relative">
+    <div className="min-h-screen mesh-gradient-bg relative">
       {/* Subtle Grid Pattern Overlay */}
       <div className="fixed inset-0 grid-pattern-overlay pointer-events-none z-0"></div>
       
@@ -693,7 +693,7 @@ export default function Home() {
             </div>
 
             {/* Desktop Side Detail Panel */}
-            <div className="hidden lg:block lg:sticky lg:top-36 text-left">
+            <div className="hidden lg:block lg:sticky lg:top-36 text-left h-fit">
               <div className="premium-card p-8 border border-slate-200/60 bg-white relative shadow-lg">
                 <QRBrackets />
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-slate-200 bg-white mb-6 shadow-sm">

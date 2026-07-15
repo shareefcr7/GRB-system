@@ -357,9 +357,11 @@ export default function Home() {
       cta: 'View QR Code Panel',
       preview: (
         <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 text-center font-sans">
-          <div className="w-28 h-28 bg-white border border-slate-200 rounded-xl mx-auto flex items-center justify-center relative p-3 shadow-sm mb-3">
+          <div className="w-28 h-28 bg-white border border-slate-200 rounded-xl mx-auto flex items-center justify-center relative p-3 shadow-sm mb-3 overflow-hidden">
             <div className="absolute inset-2 border-2 border-dashed border-blue-200 rounded-lg"></div>
-            <svg className="w-16 h-16 text-slate-800" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.625 3.75c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h4.5c.621 0 1.125-.504 1.125-1.125v-4.5c0-.621-.504-1.125-1.125-1.125h-4.5zM14.625 17.625h1.5m-1.5 1.5h1.5m3-3h1.5m-7.5-1.5h1.5m3-3h1.5m-1.5 1.5h1.5" /></svg>
+            {/* Pulsing blue scan line */}
+            <div className="absolute left-0 right-0 h-0.5 bg-blue-500 shadow-[0_0_8px_#4285F4] animate-laser-bg"></div>
+            <svg className="w-16 h-16 text-blue-600 z-10 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.625 3.75c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h4.5c.621 0 1.125-.504 1.125-1.125v-4.5c0-.621-.504-1.125-1.125-1.125h-4.5zM14.625 17.625h1.5m-1.5 1.5h1.5m3-3h1.5m-7.5-1.5h1.5m3-3h1.5m-1.5 1.5h1.5" /></svg>
           </div>
           <span className="text-xs font-bold text-slate-700 bg-white border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm inline-block">Download PDF Flyer</span>
         </div>
@@ -526,12 +528,14 @@ export default function Home() {
               <span className="w-2 h-2 rounded-full bg-[#34A853] animate-pulse"></span>
               <span className="text-xs font-bold text-[#1A73E8] uppercase tracking-wider">🔲 Smart QR Technology · Trusted by 500+ Businesses</span>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-8 saas-heading text-slate-800">
-              <span>Smart </span>
-              <span className="text-gradient-qr">QR Reviews</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] mb-8 text-slate-800" style={{fontFamily:'var(--font-plus-jakarta)'}}>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 animate-pulse">Smart QR Reviews</span>
               <br />
               <span>For </span>
-              <span className="text-[#FBBC05] saas-underline">Growth</span>
+              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">
+                Growth
+                <span className="absolute -bottom-1.5 left-0 w-full h-[6px] bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"></span>
+              </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up">
               Intelligent QR-based review management that filters negative reviews, directs satisfied customers to Google Reviews, and builds your reputation automatically.

@@ -58,6 +58,7 @@ app.use('/api/business', require('./routes/businessRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/billing', require('./routes/billingRoutes'));
 app.use('/api/superadmin', require('./routes/superAdminRoutes'));
+app.use('/api/settings', require('./routes/settingsRoutes'));
 
 // Root endpoint
 app.get('/', (req, res) => {

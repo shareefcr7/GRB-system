@@ -16,6 +16,15 @@ const ReviewScanner = () => {
   const [showCard, setShowCard] = useState(false);
 
   useEffect(() => {
+    if (businessId === 'demo') {
+      setBusiness({
+        name: 'Demo Restaurant',
+        googleReviewLink: 'https://search.google.com/local/writereview?placeid=ChIJwxVOiCVbjsRNuFjORahaqo'
+      });
+      setLoading(false);
+      return;
+    }
+
     const fetchBusiness = async () => {
       try {
         const data = await publicService.getBusiness(businessId);
@@ -36,10 +45,12 @@ const ReviewScanner = () => {
     
     if (selectedRating >= 4) {
       if (business?.googleReviewLink) {
-        // Fire API call in background so we don't block the UI
-        publicService.submitReview(businessId, { rating: selectedRating }).catch(e => {
-          console.error('Failed logging review', e);
-        });
+        if (businessId !== 'demo') {
+          // Fire API call in background so we don't block the UI
+          publicService.submitReview(businessId, { rating: selectedRating }).catch(e => {
+            console.error('Failed logging review', e);
+          });
+        }
         
         // Immediate redirect to prevent mobile browser pop-up blockers
         window.location.replace(business.googleReviewLink);

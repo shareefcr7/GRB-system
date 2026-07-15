@@ -19,6 +19,14 @@ const InternalFeedback = () => {
   const [focusedField, setFocusedField] = useState(null);
 
   useEffect(() => {
+    if (businessId === 'demo') {
+      setBusiness({
+        name: 'Demo Restaurant'
+      });
+      setTimeout(() => setShowCard(true), 100);
+      return;
+    }
+
     const fetchBusiness = async () => {
       try {
         const data = await publicService.getBusiness(businessId);
@@ -42,6 +50,13 @@ const InternalFeedback = () => {
     setIsSubmitting(true);
 
     try {
+      if (businessId === 'demo') {
+        // Mock request delay for demo
+        await new Promise(resolve => setTimeout(resolve, 800));
+        navigate('/thank-you');
+        return;
+      }
+
       await publicService.submitReview(businessId, {
         rating: Number(rating),
         feedback,

@@ -86,6 +86,14 @@ export const superAdminService = {
   getDashboardStats: async () => {
     const response = await api.get('/superadmin/dashboard-stats');
     return response.data;
+  },
+  getSettings: async () => {
+    const response = await api.get('/superadmin/settings');
+    return response.data;
+  },
+  updateSettings: async (data) => {
+    const response = await api.put('/superadmin/settings', data);
+    return response.data;
   }
 };
 

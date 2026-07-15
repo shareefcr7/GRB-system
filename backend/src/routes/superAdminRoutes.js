@@ -6,9 +6,14 @@ const {
   getAdmins, addAdmin, updateAdmin, deleteAdmin, 
   getDashboardStats 
 } = require('../controllers/superAdminController');
+const { getSettings, updateSettings } = require('../controllers/settingsController');
 
 // All routes require SuperAdmin role
 router.use(protect, admin);
+
+router.route('/settings')
+  .get(getSettings)
+  .put(updateSettings);
 
 router.route('/dashboard-stats')
   .get(getDashboardStats);

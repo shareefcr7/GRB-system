@@ -133,12 +133,12 @@ const BackgroundQRFlowAnimation = () => {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full relative">
         {/* Left Side: Large Translucent Glowing QR Code */}
-        <div className="absolute left-[2%] top-[25%] w-[220px] h-[220px] opacity-25 hidden xl:block animate-float-qr">
-          <div className="w-full h-full bg-white/20 rounded-3xl border-2 border-blue-500/20 backdrop-blur-[1px] p-6 relative">
-            <div className="animate-laser-bg absolute left-0 right-0 h-0.5 bg-blue-500/60 shadow-[0_0_10px_#4285F4]"></div>
+        <div className="absolute left-[1%] top-[25%] w-[220px] h-[220px] opacity-75 hidden xl:block animate-float-qr">
+          <div className="w-full h-full bg-white rounded-3xl border border-slate-200 p-6 relative shadow-lg">
+            <div className="animate-laser-bg absolute left-0 right-0 h-0.5 bg-blue-500 shadow-[0_0_12px_#4285F4]"></div>
             
             {/* Abstract QR grid layout */}
-            <div className="w-full h-full flex flex-col justify-between opacity-80">
+            <div className="w-full h-full flex flex-col justify-between opacity-95">
               {[0, 1, 2, 3, 4, 5].map(r => (
                 <div key={r} className="flex justify-between w-full h-[12%]">
                   {[0, 1, 2, 3, 4, 5].map(c => (
@@ -148,8 +148,8 @@ const BackgroundQRFlowAnimation = () => {
                         (r===0 && c===0) || (r===0 && c===5) || (r===5 && c===0) || 
                         (r===1 && c===1) || (r===1 && c===4) || (r===4 && c===1) ||
                         (r===2 && c===2) || (r===3 && c===3) || (((r * 2 + c * 3) % 5) > 1) 
-                          ? 'bg-blue-600/40 font-bold shadow-[0_0_4px_rgba(66,133,244,0.2)]' 
-                          : 'bg-transparent'
+                          ? 'bg-slate-800 font-bold shadow-[0_0_2px_rgba(0,0,0,0.15)]' 
+                          : 'bg-slate-100/50'
                       }`}
                     ></div>
                   ))}
@@ -160,18 +160,18 @@ const BackgroundQRFlowAnimation = () => {
         </div>
 
         {/* Right Side: Google Review Outcome Hub */}
-        <div className="absolute right-[2%] top-[30%] w-[250px] opacity-25 hidden xl:block animate-float-qr" style={{ animationDelay: '1.5s' }}>
-          <div className="w-full bg-white/20 border-2 border-emerald-500/20 backdrop-blur-[1px] rounded-3xl p-6 relative shadow-lg text-left">
+        <div className="absolute right-[1%] top-[30%] w-[250px] opacity-75 hidden xl:block animate-float-qr" style={{ animationDelay: '1.5s' }}>
+          <div className="w-full bg-white border border-slate-200 rounded-3xl p-6 relative shadow-lg text-left">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-600 flex items-center justify-center font-bold text-sm">G</div>
+              <div className="w-8 h-8 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center font-bold text-sm">G</div>
               <div>
-                <p className="text-xs font-extrabold text-slate-800">Google Rating Boosted</p>
+                <p className="text-xs font-extrabold text-slate-850">Google Rating Boosted</p>
                 <p className="text-[10px] text-slate-500">Live 5-Star Reviews</p>
               </div>
             </div>
             <div className="space-y-2">
-              <div className="h-3 w-3/4 bg-slate-800/10 rounded-full"></div>
-              <div className="h-3 w-5/6 bg-slate-800/10 rounded-full"></div>
+              <div className="h-3 w-3/4 bg-slate-200/80 rounded-full"></div>
+              <div className="h-3 w-5/6 bg-slate-200/80 rounded-full"></div>
               <div className="flex items-center gap-0.5">
                 {[1,2,3,4,5].map(x => (
                   <span key={x} className="text-amber-500 text-xs">★</span>
@@ -182,13 +182,13 @@ const BackgroundQRFlowAnimation = () => {
         </div>
 
         {/* Middle: Curved Flow Lines connecting QR code to Google Dashboard */}
-        <svg className="absolute inset-0 w-full h-full hidden xl:block opacity-45" viewBox="0 0 1200 800" fill="none">
+        <svg className="absolute inset-0 w-full h-full hidden xl:block opacity-85" viewBox="0 0 1200 800" fill="none">
           {/* Path 1: Top Curve */}
           <path 
             id="flow-path-1" 
             d="M 240 320 C 450 200, 750 200, 960 380" 
             stroke="url(#gradient-blue)" 
-            strokeWidth="3" 
+            strokeWidth="4" 
             strokeLinecap="round"
             className="flow-line-1"
           />
@@ -197,7 +197,7 @@ const BackgroundQRFlowAnimation = () => {
             id="flow-path-2" 
             d="M 240 340 C 450 300, 750 250, 960 400" 
             stroke="url(#gradient-green)" 
-            strokeWidth="2" 
+            strokeWidth="3" 
             strokeLinecap="round"
             className="flow-line-2"
           />
@@ -206,7 +206,7 @@ const BackgroundQRFlowAnimation = () => {
             id="flow-path-3" 
             d="M 240 360 C 450 400, 750 350, 960 420" 
             stroke="url(#gradient-yellow)" 
-            strokeWidth="1.5" 
+            strokeWidth="2" 
             strokeLinecap="round"
             className="flow-line-3"
           />

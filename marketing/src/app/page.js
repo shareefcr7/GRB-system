@@ -944,3 +944,5 @@ export default function Home() {
     </div>
   );
 }
+
+// Trigger redeployment after Vercel GitHub reconnect

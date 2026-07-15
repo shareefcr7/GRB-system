@@ -133,28 +133,82 @@ const BackgroundQRFlowAnimation = () => {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full relative">
         {/* Left Side: Large Translucent Glowing QR Code */}
-        <div className="absolute left-[1%] top-[25%] w-[220px] h-[220px] opacity-75 hidden xl:block animate-float-qr">
-          <div className="w-full h-full bg-white rounded-3xl border border-slate-200 p-6 relative shadow-lg">
-            <div className="animate-laser-bg absolute left-0 right-0 h-0.5 bg-blue-500 shadow-[0_0_12px_#4285F4]"></div>
+        <div className="absolute left-[1%] top-[25%] w-[220px] h-[220px] opacity-85 hidden xl:block animate-float-qr">
+          <div className="w-full h-full bg-white rounded-3xl border border-slate-200 p-6 relative shadow-lg overflow-hidden flex flex-col justify-between">
+            {/* Blue scan laser line */}
+            <div className="animate-laser-bg absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent shadow-[0_0_15px_#4285F4] z-10"></div>
             
-            {/* Abstract QR grid layout */}
-            <div className="w-full h-full flex flex-col justify-between opacity-95">
-              {[0, 1, 2, 3, 4, 5].map(r => (
-                <div key={r} className="flex justify-between w-full h-[12%]">
-                  {[0, 1, 2, 3, 4, 5].map(c => (
-                    <div 
-                      key={c} 
-                      className={`w-[12%] h-full rounded-md ${
-                        (r===0 && c===0) || (r===0 && c===5) || (r===5 && c===0) || 
-                        (r===1 && c===1) || (r===1 && c===4) || (r===4 && c===1) ||
-                        (r===2 && c===2) || (r===3 && c===3) || (((r * 2 + c * 3) % 5) > 1) 
-                          ? 'bg-slate-800 font-bold shadow-[0_0_2px_rgba(0,0,0,0.15)]' 
-                          : 'bg-slate-100/50'
-                      }`}
-                    ></div>
-                  ))}
+            {/* Real-style blue QR Code Grid */}
+            <div className="w-full h-full flex flex-col justify-between opacity-95 relative">
+              
+              {/* Row 0 */}
+              <div className="flex justify-between w-full h-[12%]">
+                {/* Top-Left Finder Pattern (3x3 blocks wide) */}
+                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
+                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
                 </div>
-              ))}
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
+                {/* Top-Right Finder Pattern */}
+                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
+                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
+                </div>
+              </div>
+
+              {/* Row 1 */}
+              <div className="flex justify-between w-full h-[12%]">
+                <div className="w-[30%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[30%] h-full bg-transparent"></div>
+              </div>
+
+              {/* Row 2 */}
+              <div className="flex justify-between w-full h-[12%]">
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
+              </div>
+
+              {/* Row 3 */}
+              <div className="flex justify-between w-full h-[12%]">
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
+              </div>
+
+              {/* Row 4 */}
+              <div className="flex justify-between w-full h-[12%]">
+                {/* Bottom-Left Finder Pattern */}
+                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
+                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
+                </div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+              </div>
+
+              {/* Row 5 */}
+              <div className="flex justify-between w-full h-[12%]">
+                <div className="w-[30%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-transparent"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
+                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
+              </div>
+
             </div>
           </div>
         </div>

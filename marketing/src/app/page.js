@@ -621,11 +621,11 @@ export default function Home() {
       {/* Scrolling Logo Cloud (Social Proof) */}
       <section className="py-20 border-t border-b border-slate-200/60 relative z-10 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-[0.25em] mb-12">Trusted by leading Indian businesses</p>
+          <p className="text-center text-xs font-bold text-slate-550 uppercase tracking-[0.25em] mb-12">Trusted by leading Indian businesses</p>
           <div className="relative flex overflow-x-hidden">
             <div className="animate-marquee flex gap-16 md:gap-24 items-center">
               {['Taj Hotels','Zomato','Swiggy','OYO','MakeMyTrip','Taj Hotels','Zomato','Swiggy','OYO','MakeMyTrip'].map((n, i)=>(
-                <span key={`${n}-${i}`} className="text-2xl font-black tracking-wider text-slate-300 hover:text-slate-500 transition-colors" style={{fontFamily:'var(--font-plus-jakarta)'}}>{n}</span>
+                <span key={`${n}-${i}`} className="text-2xl font-black tracking-wider text-slate-500 hover:text-slate-900 transition-colors" style={{fontFamily:'var(--font-plus-jakarta)'}}>{n}</span>
               ))}
             </div>
           </div>

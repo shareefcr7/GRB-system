@@ -247,23 +247,19 @@ export default function Home() {
 
     const fetchSettings = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/settings');
+        const apiBase = typeof window !== "undefined" && window.location.hostname === "localhost"
+          ? "http://localhost:5001/api"
+          : "https://grb-system.onrender.com/api";
+
+        const response = await fetch(`${apiBase}/settings`);
         if (response.ok) {
           const data = await response.json();
           if (data && data.watchDemoVideoUrl) {
             setVideoUrl(data.watchDemoVideoUrl);
           }
-        } else {
-          const res = await fetch('/api/settings');
-          if (res.ok) {
-            const data = await res.json();
-            if (data && data.watchDemoVideoUrl) {
-              setVideoUrl(data.watchDemoVideoUrl);
-            }
-          }
         }
       } catch (error) {
-        console.error('Error fetching settings:', error);
+        console.warn('Could not load dynamic settings, using default video:', error.message);
       }
     };
     fetchSettings();

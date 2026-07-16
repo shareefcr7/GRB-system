@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 const getEmbedUrl = (url) => {
   if (!url) return 'https://www.youtube.com/embed/dQw4w9WgXcQ';
   if (url.includes('/embed/')) return url;
-  
+
   let videoId = '';
   try {
     if (url.includes('/shorts/')) {
@@ -32,7 +32,7 @@ const getEmbedUrl = (url) => {
   } catch (error) {
     console.error('Error parsing youtube link:', error);
   }
-  
+
   if (videoId) {
     return `https://www.youtube.com/embed/${videoId.substring(0, 11)}`;
   }
@@ -50,9 +50,38 @@ const QRBrackets = () => (
 
 const QRPixelGrid = ({ className = '' }) => (
   <svg className={`absolute opacity-[0.03] ${className}`} width="200" height="200" viewBox="0 0 200 200">
-    {[0,1,2,3,4,5,6,7].map(r => [0,1,2,3,4,5,6,7].map(c => (
-      ((r * 3 + c * 7) % 5 > 1) && <rect key={`${r}-${c}`} x={c*25} y={r*25} width="20" height="20" rx="4" fill="currentColor" className="text-blue-500"/>
+    {[0, 1, 2, 3, 4, 5, 6, 7].map(r => [0, 1, 2, 3, 4, 5, 6, 7].map(c => (
+      ((r * 3 + c * 7) % 5 > 1) && <rect key={`${r}-${c}`} x={c * 25} y={r * 25} width="20" height="20" rx="4" fill="currentColor" className="text-blue-500" />
     )))}
+  </svg>
+);
+
+const SimpleQRCode = ({ color = '#4285F4', className = '' }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Finder Top Left */}
+    <path d="M 0 0 h 30 v 30 h -30 z M 5 5 v 20 h 20 v -20 z M 10 10 h 10 v 10 h -10 z" fill={color} />
+    {/* Finder Top Right */}
+    <path d="M 70 0 h 30 v 30 h -30 z M 75 5 v 20 h 20 v -20 z M 80 10 h 10 v 10 h -10 z" fill={color} />
+    {/* Finder Bottom Left */}
+    <path d="M 0 70 h 30 v 30 h -30 z M 5 75 v 20 h 20 v -20 z M 10 80 h 10 v 10 h -10 z" fill={color} />
+    {/* Alignment Bottom Right */}
+    <path d="M 75 75 h 10 v 10 h -10 z" fill={color} />
+    {/* Clean Data Matrix Blocks */}
+    <path d="
+      M 35 5 h 5 v 5 h -5 z M 45 0 h 5 v 5 h -5 z M 55 5 h 5 v 5 h -5 z
+      M 35 15 h 10 v 5 h -10 z M 50 10 h 5 v 10 h -5 z M 60 15 h 5 v 5 h -5 z
+      M 35 25 h 5 v 5 h -5 z M 45 25 h 15 v 5 h -15 z
+      M 0 35 h 5 v 5 h -5 z M 15 35 h 10 v 5 h -10 z M 30 35 h 5 v 10 h -5 z
+      M 40 40 h 10 v 5 h -10 z M 55 35 h 5 v 15 h -5 z M 65 40 h 5 v 5 h -5 z
+      M 75 35 h 15 v 5 h -15 z
+      M 5 45 h 5 v 10 h -5 z M 15 50 h 5 v 5 h -5 z M 25 45 h 10 v 5 h -10 z
+      M 45 50 h 5 v 5 h -5 z M 60 50 h 10 v 5 h -10 z M 85 45 h 15 v 5 h -15 z
+      M 0 60 h 15 v 5 h -15 z M 20 60 h 5 v 5 h -5 z M 35 55 h 5 v 10 h -5 z
+      M 45 60 h 15 v 5 h -15 z M 70 60 h 5 v 5 h -5 z M 80 55 h 10 v 5 h -10 z
+      M 35 70 h 5 v 5 h -5 z M 45 75 h 5 v 15 h -5 z M 55 70 h 10 v 5 h -10 z
+      M 60 80 h 5 v 5 h -5 z M 35 85 h 5 v 5 h -5 z M 55 90 h 15 v 5 h -15 z
+      M 75 90 h 5 v 5 h -5 z M 90 85 h 10 v 10 h -10 z
+    " fill={color} />
   </svg>
 );
 
@@ -96,7 +125,8 @@ const PlayIcon = () => (
 const BackgroundQRFlowAnimation = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes floatQR {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-15px) rotate(1deg); }
@@ -108,8 +138,8 @@ const BackgroundQRFlowAnimation = () => {
           100% { stroke-dashoffset: 0; opacity: 0; }
         }
         @keyframes laserSweepBg {
-          0%, 100% { top: 0%; opacity: 0.1; }
-          50% { top: 100%; opacity: 0.7; }
+          0%, 100% { top: 5%; opacity: 0.3; }
+          50% { top: 95%; opacity: 1; }
         }
         .animate-float-qr {
           animation: floatQR 6s ease-in-out infinite;
@@ -132,84 +162,14 @@ const BackgroundQRFlowAnimation = () => {
       `}} />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full relative">
-        {/* Left Side: Large Translucent Glowing QR Code */}
-        <div className="absolute left-[1%] top-[25%] w-[220px] h-[220px] opacity-85 hidden xl:block animate-float-qr">
-          <div className="w-full h-full bg-white rounded-3xl border border-slate-200 p-6 relative shadow-lg overflow-hidden flex flex-col justify-between">
-            {/* Blue scan laser line */}
-            <div className="animate-laser-bg absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent shadow-[0_0_15px_#4285F4] z-10"></div>
-            
-            {/* Real-style blue QR Code Grid */}
-            <div className="w-full h-full flex flex-col justify-between opacity-95 relative">
-              
-              {/* Row 0 */}
-              <div className="flex justify-between w-full h-[12%]">
-                {/* Top-Left Finder Pattern (3x3 blocks wide) */}
-                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
-                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
-                </div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
-                {/* Top-Right Finder Pattern */}
-                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
-                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
-                </div>
-              </div>
+        {/* Left Side: Premium High-Fidelity Glass QR Code Card with Laser Sweep */}
+        <div className="absolute left-[-2%] top-[25%] w-[220px] h-[220px] hidden xl:block animate-float-qr z-20">
+          <div className="w-full h-full bg-white rounded-3xl border border-slate-200/80 p-6 relative shadow-xl transition-all hover:scale-105 duration-500 flex items-center justify-center">
+            {/* Glowing blue laser scanning sweep line */}
+            <div className="animate-laser-bg absolute left-4 right-4 h-[2px] bg-[#4285F4] shadow-[0_0_10px_#4285F4] rounded-full z-30"></div>
 
-              {/* Row 1 */}
-              <div className="flex justify-between w-full h-[12%]">
-                <div className="w-[30%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[30%] h-full bg-transparent"></div>
-              </div>
-
-              {/* Row 2 */}
-              <div className="flex justify-between w-full h-[12%]">
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
-              </div>
-
-              {/* Row 3 */}
-              <div className="flex justify-between w-full h-[12%]">
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/80 rounded-md"></div>
-              </div>
-
-              {/* Row 4 */}
-              <div className="flex justify-between w-full h-[12%]">
-                {/* Bottom-Left Finder Pattern */}
-                <div className="w-[30%] h-full border-[3px] border-blue-600 rounded-lg flex items-center justify-center p-[2px]">
-                  <div className="w-full h-full bg-blue-600 rounded-sm"></div>
-                </div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-              </div>
-
-              {/* Row 5 */}
-              <div className="flex justify-between w-full h-[12%]">
-                <div className="w-[30%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-transparent"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-500/40 rounded-md"></div>
-                <div className="w-[10%] h-full bg-blue-600 rounded-md"></div>
-              </div>
-
-            </div>
+            {/* Simple clean SVG QR Code */}
+            <SimpleQRCode color="#4285F4" className="w-full h-full opacity-90" />
           </div>
         </div>
 
@@ -227,7 +187,7 @@ const BackgroundQRFlowAnimation = () => {
               <div className="h-3 w-3/4 bg-slate-200/80 rounded-full"></div>
               <div className="h-3 w-5/6 bg-slate-200/80 rounded-full"></div>
               <div className="flex items-center gap-0.5">
-                {[1,2,3,4,5].map(x => (
+                {[1, 2, 3, 4, 5].map(x => (
                   <span key={x} className="text-amber-500 text-xs">★</span>
                 ))}
               </div>
@@ -238,29 +198,29 @@ const BackgroundQRFlowAnimation = () => {
         {/* Middle: Curved Flow Lines connecting QR code to Google Dashboard */}
         <svg className="absolute inset-0 w-full h-full hidden xl:block opacity-85" viewBox="0 0 1200 800" fill="none">
           {/* Path 1: Top Curve */}
-          <path 
-            id="flow-path-1" 
-            d="M 240 320 C 450 200, 750 200, 960 380" 
-            stroke="url(#gradient-blue)" 
-            strokeWidth="4" 
+          <path
+            id="flow-path-1"
+            d="M 240 320 C 450 200, 750 200, 960 380"
+            stroke="url(#gradient-blue)"
+            strokeWidth="4"
             strokeLinecap="round"
             className="flow-line-1"
           />
           {/* Path 2: Middle Curve */}
-          <path 
-            id="flow-path-2" 
-            d="M 240 340 C 450 300, 750 250, 960 400" 
-            stroke="url(#gradient-green)" 
-            strokeWidth="3" 
+          <path
+            id="flow-path-2"
+            d="M 240 340 C 450 300, 750 250, 960 400"
+            stroke="url(#gradient-green)"
+            strokeWidth="3"
             strokeLinecap="round"
             className="flow-line-2"
           />
           {/* Path 3: Bottom Curve */}
-          <path 
-            id="flow-path-3" 
-            d="M 240 360 C 450 400, 750 350, 960 420" 
-            stroke="url(#gradient-yellow)" 
-            strokeWidth="2" 
+          <path
+            id="flow-path-3"
+            d="M 240 360 C 450 400, 750 350, 960 420"
+            stroke="url(#gradient-yellow)"
+            strokeWidth="2"
             strokeLinecap="round"
             className="flow-line-3"
           />
@@ -275,7 +235,7 @@ const BackgroundQRFlowAnimation = () => {
               <stop offset="0%" stopColor="#34A853" />
               <stop offset="100%" stopColor="#FBBC05" />
             </linearGradient>
-              <linearGradient id="gradient-yellow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="gradient-yellow" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#FBBC05" />
               <stop offset="100%" stopColor="#EA4335" />
             </linearGradient>
@@ -289,7 +249,7 @@ const BackgroundQRFlowAnimation = () => {
 
 export default function Home() {
   const [d, setD] = useState("https://mytruefeedback.com");
-  
+
   const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -320,12 +280,12 @@ export default function Home() {
   }, []);
 
   const steps = [
-    { 
-      n: '01', 
-      icon: <UserPlusIcon />, 
-      title: 'Merchant Sign Up', 
-      desc: 'Merchant signs up and sets up their business profile on GRB dashboard', 
-      color: 'bg-blue-500', 
+    {
+      n: '01',
+      icon: <UserPlusIcon />,
+      title: 'Merchant Sign Up',
+      desc: 'Merchant signs up and sets up their business profile on GRB dashboard',
+      color: 'bg-blue-500',
       link: `${d}/register`,
       detailTitle: 'Quick 60-Second Setup',
       detailDesc: 'Create your account, customize your branding, and input your Google Review address to immediately generate your marketing assets.',
@@ -345,34 +305,32 @@ export default function Home() {
         </div>
       )
     },
-    { 
-      n: '02', 
-      icon: <QrCodeIcon />, 
-      title: 'QR Code Generated', 
-      desc: 'Branded QR code is automatically generated for store display', 
-      color: 'bg-blue-600', 
+    {
+      n: '02',
+      icon: <QrCodeIcon />,
+      title: 'QR Code Generated',
+      desc: 'Branded QR code is automatically generated for store display',
+      color: 'bg-blue-600',
       link: `${d}/login`,
       detailTitle: 'Automated QR Generation',
       detailDesc: 'Your business profile instantly generates clean, high-resolution QR graphics ready to print for tables, receipts, or store counters.',
       cta: 'View QR Code Panel',
       preview: (
         <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 text-center font-sans">
-          <div className="w-28 h-28 bg-white border border-slate-200 rounded-xl mx-auto flex items-center justify-center relative p-3 shadow-sm mb-3 overflow-hidden">
+          <div className="w-28 h-28 bg-white border border-slate-200 rounded-xl mx-auto flex items-center justify-center relative p-3 shadow-sm mb-3">
             <div className="absolute inset-2 border-2 border-dashed border-blue-200 rounded-lg"></div>
-            {/* Pulsing blue scan line */}
-            <div className="absolute left-0 right-0 h-0.5 bg-blue-500 shadow-[0_0_8px_#4285F4] animate-laser-bg"></div>
-            <svg className="w-16 h-16 text-blue-600 z-10 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.625 3.75c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h4.5c.621 0 1.125-.504 1.125-1.125v-4.5c0-.621-.504-1.125-1.125-1.125h-4.5zM14.625 17.625h1.5m-1.5 1.5h1.5m3-3h1.5m-7.5-1.5h1.5m3-3h1.5m-1.5 1.5h1.5" /></svg>
+            <svg className="w-16 h-16 text-slate-800" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.625 3.75c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h4.5c.621 0 1.125-.504 1.125-1.125v-4.5c0-.621-.504-1.125-1.125-1.125h-4.5zM14.625 17.625h1.5m-1.5 1.5h1.5m3-3h1.5m-7.5-1.5h1.5m3-3h1.5m-1.5 1.5h1.5" /></svg>
           </div>
           <span className="text-xs font-bold text-slate-700 bg-white border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm inline-block">Download PDF Flyer</span>
         </div>
       )
     },
-    { 
-      n: '03', 
-      icon: <ScanIcon />, 
-      title: 'Customer Scans QR', 
-      desc: 'Customers scan the QR code placed at your store location', 
-      color: 'bg-emerald-500', 
+    {
+      n: '03',
+      icon: <ScanIcon />,
+      title: 'Customer Scans QR',
+      desc: 'Customers scan the QR code placed at your store location',
+      color: 'bg-emerald-500',
       link: `${d}/r/demo`,
       detailTitle: 'Frictionless QR Scanning',
       detailDesc: 'Customers open their camera app and point at the QR code. They are instantly directed to your custom mobile rating page in under 2 seconds.',
@@ -383,19 +341,19 @@ export default function Home() {
             <div className="bg-white rounded-[22px] overflow-hidden p-3 text-left">
               <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] mb-1.5">🏢</div>
               <p className="text-[10px] font-extrabold text-slate-800">Rate Malabar Menu</p>
-              <div className="flex gap-0.5 my-1.5">{[1,2,3,4,5].map(x => <span key={x} className="text-amber-400 text-xs">★</span>)}</div>
+              <div className="flex gap-0.5 my-1.5">{[1, 2, 3, 4, 5].map(x => <span key={x} className="text-amber-400 text-xs">★</span>)}</div>
               <div className="h-6 bg-[#4285F4] rounded-lg text-[9px] text-white font-bold flex items-center justify-center">Submit Rating</div>
             </div>
           </div>
         </div>
       )
     },
-    { 
-      n: '04', 
-      icon: <ExternalLinkIcon />, 
-      title: 'Google Reviews Redirect', 
-      desc: 'High scores automatically redirect happy customers to leave a Google Review', 
-      color: 'from-amber-500 to-orange-500', 
+    {
+      n: '04',
+      icon: <ExternalLinkIcon />,
+      title: 'Google Reviews Redirect',
+      desc: 'High scores automatically redirect happy customers to leave a Google Review',
+      color: 'from-amber-500 to-orange-500',
       link: `${d}/r/demo`,
       detailTitle: 'Automate 5-Star Reviews',
       detailDesc: 'Happy customers selecting 4 or 5 stars are immediately redirected to your official Google My Business write-a-review page, maximizing your positive rating volume.',
@@ -410,18 +368,18 @@ export default function Home() {
             </div>
           </div>
           <div className="p-3 bg-white border border-slate-100 rounded-xl space-y-1.5">
-            <div className="flex gap-0.5">{[1,2,3,4,5].map(x => <span key={x} className="text-amber-400 text-xs">★</span>)}</div>
+            <div className="flex gap-0.5">{[1, 2, 3, 4, 5].map(x => <span key={x} className="text-amber-400 text-xs">★</span>)}</div>
             <p className="text-[10px] text-slate-600 leading-relaxed font-medium">Amazing service and delicious food! 10/10 highly recommended.</p>
           </div>
         </div>
       )
     },
-    { 
-      n: '05', 
-      icon: <LockIcon />, 
-      title: 'Private Feedback Stored', 
-      desc: 'Low-score feedback is stored internally and sent directly to management', 
-      color: 'bg-red-500', 
+    {
+      n: '05',
+      icon: <LockIcon />,
+      title: 'Private Feedback Stored',
+      desc: 'Low-score feedback is stored internally and sent directly to management',
+      color: 'bg-red-500',
       link: `${d}/r/demo`,
       detailTitle: 'Negative Review Intercept',
       detailDesc: 'Dissatisfied customers (1-3 stars) are routed to a private feedback form. This keeps complaints off public Google profiles, giving you a chance to resolve it privately.',
@@ -439,12 +397,12 @@ export default function Home() {
         </div>
       )
     },
-    { 
-      n: '06', 
-      icon: <UserPlusIcon />, 
-      title: 'Merchant Dashboard', 
-      desc: 'Monitor reviews, analyze feedback trends, and manage branches', 
-      color: 'bg-indigo-600', 
+    {
+      n: '06',
+      icon: <UserPlusIcon />,
+      title: 'Merchant Dashboard',
+      desc: 'Monitor reviews, analyze feedback trends, and manage branches',
+      color: 'bg-indigo-600',
       link: `${d}/login`,
       detailTitle: 'Unified Merchant Dashboard',
       detailDesc: 'Track reviews from all branch locations, analyze rating statistics, check customer feedback details, and manage subscription settings dynamically.',
@@ -469,25 +427,25 @@ export default function Home() {
       )
     }
   ];
-  
+
   const plans = [
-    { name:'Starter', price:'2,500', icon:'🚀', color:'blue', features:['1 Business Location','Up to 100 QR scans/month','Basic review filtering','Email support','QR code generation','Basic analytics'] },
-    { name:'Professional', price:'5,000', icon:'⚡', color:'blue', pop:true, features:['Up to 5 locations','1,000 QR scans/month','Advanced analytics','Priority support','Custom QR designs','Auto response templates'] },
-    { name:'Enterprise', price:'10,000', icon:'🏢', color:'blue', features:['Unlimited locations','Unlimited QR scans','White-label solution','24/7 phone support','Custom integrations','Dedicated manager'] },
+    { name: 'Starter', price: '2,500', icon: '🚀', color: 'blue', features: ['1 Business Location', 'Up to 100 QR scans/month', 'Basic review filtering', 'Email support', 'QR code generation', 'Basic analytics'] },
+    { name: 'Professional', price: '5,000', icon: '⚡', color: 'blue', pop: true, features: ['Up to 5 locations', '1,000 QR scans/month', 'Advanced analytics', 'Priority support', 'Custom QR designs', 'Auto response templates'] },
+    { name: 'Enterprise', price: '10,000', icon: '🏢', color: 'blue', features: ['Unlimited locations', 'Unlimited QR scans', 'White-label solution', '24/7 phone support', 'Custom integrations', 'Dedicated manager'] },
   ];
-  
+
   const stats = [
-    { v:'80,000+', l:'Positive Reviews', i:'⭐' },
-    { v:'500+', l:'Indian Businesses', i:'🏢' },
-    { v:'4.7★', l:'Avg Rating Boost', i:'📈' },
-    { v:'99.9%', l:'Uptime', i:'🛡️' },
+    { v: '80,000+', l: 'Positive Reviews', i: '⭐' },
+    { v: '500+', l: 'Indian Businesses', i: '🏢' },
+    { v: '4.7★', l: 'Avg Rating Boost', i: '📈' },
+    { v: '99.9%', l: 'Uptime', i: '🛡️' },
   ];
 
   return (
     <div className="min-h-screen mesh-gradient-bg relative">
       {/* Subtle Grid Pattern Overlay */}
       <div className="fixed inset-0 grid-pattern-overlay pointer-events-none z-0"></div>
-      
+
       {/* Floating Circles & Mesh Blobs */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[10%] left-[5%] w-[450px] h-[450px] bg-blue-400/3 rounded-full blur-[120px] animate-float"></div>
@@ -502,12 +460,12 @@ export default function Home() {
           <div className="flex justify-between items-center h-20">
             <a href="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4285F4] to-[#1A73E8] flex items-center justify-center shadow-sm transition-all group-hover:shadow-md">
-                <span className="font-extrabold text-white text-lg" style={{fontFamily:'var(--font-plus-jakarta)'}}>G</span>
+                <span className="font-extrabold text-white text-lg" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>G</span>
               </div>
-              <span className="font-bold text-xl tracking-tight text-slate-800" style={{fontFamily:'var(--font-plus-jakarta)'}}>GRB</span>
+              <span className="font-bold text-xl tracking-tight text-slate-800" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>GRB</span>
             </a>
             <div className="hidden md:flex items-center gap-1">
-              {['Home', 'Workflow', 'Features', 'Pricing', 'Stories'].map(i=>(
+              {['Home', 'Workflow', 'Features', 'Pricing', 'Stories'].map(i => (
                 <a key={i} href={`#${i.toLowerCase()}`} className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition-all">{i}</a>
               ))}
             </div>
@@ -528,14 +486,12 @@ export default function Home() {
               <span className="w-2 h-2 rounded-full bg-[#34A853] animate-pulse"></span>
               <span className="text-xs font-bold text-[#1A73E8] uppercase tracking-wider">🔲 Smart QR Technology · Trusted by 500+ Businesses</span>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] mb-8 text-slate-800" style={{fontFamily:'var(--font-plus-jakarta)'}}>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 animate-pulse">Smart QR Reviews</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-8 saas-heading text-slate-800">
+              <span>Smart </span>
+              <span className="text-gradient-qr">QR Reviews</span>
               <br />
               <span>For </span>
-              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">
-                Growth
-                <span className="absolute -bottom-1.5 left-0 w-full h-[6px] bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"></span>
-              </span>
+              <span className="text-[#FBBC05] saas-underline">Growth</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up">
               Intelligent QR-based review management that filters negative reviews, directs satisfied customers to Google Reviews, and builds your reputation automatically.
@@ -554,7 +510,7 @@ export default function Home() {
             {/* Dashboard Preview with Layered depth and Floating Cards */}
             <div className="relative max-w-5xl mx-auto mt-12">
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/8 via-emerald-500/4 to-transparent rounded-[32px] blur-3xl -z-10 scale-95"></div>
-              
+
               {/* Floating Reviews Cards */}
               <div className="absolute -left-12 top-1/4 w-60 premium-card p-4 hidden lg:block animate-float text-left z-20">
                 <div className="flex items-center gap-2 mb-2">
@@ -584,7 +540,7 @@ export default function Home() {
                 <QRBrackets />
                 <div className="rounded-[28px] overflow-hidden border border-slate-200/80 bg-white shadow-2xl relative">
                   <div className="qr-scan-line"></div>
-                  
+
                   {/* Mock Browser Header */}
                   <div className="flex items-center gap-2 px-6 py-4 bg-slate-50 border-b border-slate-200/60">
                     <div className="flex gap-2">
@@ -608,14 +564,14 @@ export default function Home() {
                         <span className="font-extrabold text-sm text-slate-800">GRB Dashboard</span>
                       </div>
                       <div className="space-y-1.5 flex-1">
-                        {[['📊','Overview',true],['⭐','Reviews'],['🔲','QR Codes'],['📈','Analytics']].map(([ic,lb,act],i)=>(
-                          <div key={i} className={`flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all ${act?'bg-[#E8F0FE] text-[#1A73E8] font-bold shadow-sm border border-blue-100':'text-slate-500 hover:text-slate-900 hover:bg-slate-200/40'}`}>
+                        {[['📊', 'Overview', true], ['⭐', 'Reviews'], ['🔲', 'QR Codes'], ['📈', 'Analytics']].map(([ic, lb, act], i) => (
+                          <div key={i} className={`flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all ${act ? 'bg-[#E8F0FE] text-[#1A73E8] font-bold shadow-sm border border-blue-100' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/40'}`}>
                             <span>{ic}</span> {lb}
                           </div>
                         ))}
                       </div>
                     </div>
-                    
+
                     {/* Mock Dashboard Content */}
                     <div className="flex-1 p-8 bg-white">
                       <div className="flex items-center justify-between mb-8">
@@ -625,9 +581,9 @@ export default function Home() {
                         </div>
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4285F4] to-[#34A853] flex items-center justify-center text-sm font-extrabold text-white shadow-sm">R</div>
                       </div>
-                      
+
                       <div className="grid grid-cols-3 gap-4 mb-6">
-                        {[['Total Reviews','847','↑ 12%','text-[#34A853]'],['Google Rating','4.7★','↑ 0.3','text-[#FBBC05]'],['Filtered','156','Caught','text-[#4285F4]']].map(([l,v,s,c],i)=>(
+                        {[['Total Reviews', '847', '↑ 12%', 'text-[#34A853]'], ['Google Rating', '4.7★', '↑ 0.3', 'text-[#FBBC05]'], ['Filtered', '156', 'Caught', 'text-[#4285F4]']].map(([l, v, s, c], i) => (
                           <div key={i} className="rounded-2xl bg-slate-50/60 border border-slate-200/60 p-5">
                             <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1.5">{l}</p>
                             <p className={`text-3xl font-extrabold text-slate-800`}>{v}</p>
@@ -635,25 +591,25 @@ export default function Home() {
                           </div>
                         ))}
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-4">
                         <div className="rounded-2xl bg-slate-50/60 border border-slate-200/60 p-5">
                           <p className="text-xs font-bold text-slate-800 mb-4">Review Trend</p>
                           <div className="flex items-end gap-2 h-20">
-                            {[35,45,32,55,48,62,58,70,65,80,75,90].map((h,i)=>(
-                              <div key={i} className="flex-1 rounded-t-md bg-gradient-to-t from-[#4285F4] to-[#34A853] opacity-80 hover:opacity-100 transition-opacity" style={{height:`${h}%`}}></div>
+                            {[35, 45, 32, 55, 48, 62, 58, 70, 65, 80, 75, 90].map((h, i) => (
+                              <div key={i} className="flex-1 rounded-t-md bg-gradient-to-t from-[#4285F4] to-[#34A853] opacity-80 hover:opacity-100 transition-opacity" style={{ height: `${h}%` }}></div>
                             ))}
                           </div>
                         </div>
-                        
+
                         <div className="rounded-2xl bg-slate-50/60 border border-slate-200/60 p-5">
                           <p className="text-xs font-bold text-slate-800 mb-4">QR Scan Activity</p>
                           <div className="space-y-3">
-                            {[['Today',85],['This Week',65],['This Month',45]].map(([l,w],i)=>(
+                            {[['Today', 85], ['This Week', 65], ['This Month', 45]].map(([l, w], i) => (
                               <div key={i} className="flex items-center gap-3">
                                 <span className="text-xs text-slate-500 w-16">{l}</span>
                                 <div className="flex-1 bg-slate-200 rounded-full h-2.5">
-                                  <div className="bg-[#4285F4] h-2.5 rounded-full transition-all duration-500" style={{width:`${w}%`}}></div>
+                                  <div className="bg-[#4285F4] h-2.5 rounded-full transition-all duration-500" style={{ width: `${w}%` }}></div>
                                 </div>
                               </div>
                             ))}
@@ -678,8 +634,8 @@ export default function Home() {
           <p className="text-center text-xs font-bold text-slate-550 uppercase tracking-[0.25em] mb-12">Trusted by leading Indian businesses</p>
           <div className="relative flex overflow-x-hidden">
             <div className="animate-marquee flex gap-16 md:gap-24 items-center">
-              {['Taj Hotels','Zomato','Swiggy','OYO','MakeMyTrip','Taj Hotels','Zomato','Swiggy','OYO','MakeMyTrip'].map((n, i)=>(
-                <span key={`${n}-${i}`} className="text-2xl font-black tracking-wider text-slate-500 hover:text-slate-900 transition-colors" style={{fontFamily:'var(--font-plus-jakarta)'}}>{n}</span>
+              {['Taj Hotels', 'Zomato', 'Swiggy', 'OYO', 'MakeMyTrip', 'Taj Hotels', 'Zomato', 'Swiggy', 'OYO', 'MakeMyTrip'].map((n, i) => (
+                <span key={`${n}-${i}`} className="text-2xl font-black tracking-wider text-slate-500 hover:text-slate-900 transition-colors" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>{n}</span>
               ))}
             </div>
           </div>
@@ -702,15 +658,15 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Timeline Column */}
             <div className="relative pl-8 md:pl-12 border-l border-slate-200 space-y-6">
-              {steps.map((s,i)=>(
+              {steps.map((s, i) => (
                 <div key={i} className="relative text-left">
                   {/* Timeline node */}
                   <div className={`absolute -left-[45px] md:-left-[61px] top-5 w-8 h-8 rounded-full bg-white border shadow-sm flex items-center justify-center z-10 transition-all duration-300 ${activeStep === i ? 'border-[#4285F4] scale-110 shadow-md' : 'border-slate-200'}`}>
                     <div className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${activeStep === i ? 'bg-[#4285F4]' : 'bg-slate-300'}`}></div>
                   </div>
-                  
+
                   {/* Clickable Card */}
-                  <button 
+                  <button
                     onClick={() => setActiveStep(i)}
                     onMouseEnter={() => setActiveStep(i)}
                     aria-label={`Show details for ${s.title}`}
@@ -724,7 +680,7 @@ export default function Home() {
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1.5">
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{s.n}</span>
-                          <h3 className="font-extrabold text-slate-800 text-lg" style={{fontFamily:'var(--font-plus-jakarta)'}}>{s.title}</h3>
+                          <h3 className="font-extrabold text-slate-800 text-lg" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>{s.title}</h3>
                         </div>
                         <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
                       </div>
@@ -734,7 +690,7 @@ export default function Home() {
                   {/* Mobile Accordion Details Panel */}
                   <div className={`lg:hidden transition-all duration-300 overflow-hidden ${activeStep === i ? 'max-h-[600px] mt-4 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-5 space-y-4 shadow-inner">
-                      <h4 className="font-extrabold text-slate-800 text-base" style={{fontFamily:'var(--font-plus-jakarta)'}}>{s.detailTitle}</h4>
+                      <h4 className="font-extrabold text-slate-800 text-base" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>{s.detailTitle}</h4>
                       <p className="text-xs text-slate-500 leading-relaxed">{s.detailDesc}</p>
                       <div className="py-2 flex justify-center">{s.preview}</div>
                       <a href={s.link} className="btn-primary-saas w-full py-3.5 text-xs font-bold text-center block rounded-xl text-white">
@@ -753,8 +709,8 @@ export default function Home() {
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-slate-200 bg-white mb-6 shadow-sm">
                   <span className="text-xs font-bold text-[#4285F4] uppercase tracking-wider">Step Preview</span>
                 </div>
-                
-                <h3 className="text-2xl font-extrabold leading-tight mb-4 text-slate-800 transition-all duration-300" style={{fontFamily:'var(--font-plus-jakarta)'}}>
+
+                <h3 className="text-2xl font-extrabold leading-tight mb-4 text-slate-800 transition-all duration-300" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>
                   {steps[activeStep].detailTitle}
                 </h3>
                 <p className="text-sm text-slate-500 mb-8 leading-relaxed transition-all duration-300">
@@ -768,8 +724,8 @@ export default function Home() {
                   </div>
                 </div>
 
-                <a 
-                  href={steps[activeStep].link} 
+                <a
+                  href={steps[activeStep].link}
                   className="btn-primary-saas w-full py-4 text-sm font-bold text-center block rounded-xl text-white transition-all shadow-md shadow-blue-500/10 hover:shadow-blue-500/20"
                 >
                   {steps[activeStep].cta} &rarr;
@@ -783,13 +739,13 @@ export default function Home() {
       {/* ===== STATS & FEATURES BENTO GRID ===== */}
       <section id="features" className="py-32 relative z-10 bg-white border-t border-b border-slate-200/60">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          
+
           {/* Bento Cards (Top) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
-            {stats.map((s,i)=>(
+            {stats.map((s, i) => (
               <div key={i} className="premium-card p-8 text-center group relative"><QRBrackets />
                 <span className="text-3xl mb-4 block group-hover:scale-125 transition-transform">{s.i}</span>
-                <p className="text-4xl font-extrabold text-slate-800 mb-1.5" style={{fontFamily:'var(--font-plus-jakarta)'}}>{s.v}</p>
+                <p className="text-4xl font-extrabold text-slate-800 mb-1.5" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>{s.v}</p>
                 <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{s.l}</p>
               </div>
             ))}
@@ -806,7 +762,7 @@ export default function Home() {
               </h2>
               <p className="text-lg text-slate-500 mb-10 leading-relaxed">GRB Software helps businesses automatically direct satisfied customers to Google Reviews while handling concerns privately.</p>
               <div className="space-y-5">
-                {['Filter negative reviews before they go public','AI-powered sentiment analysis','Real-time dashboard & analytics','Custom branded QR codes'].map((f,i)=>(
+                {['Filter negative reviews before they go public', 'AI-powered sentiment analysis', 'Real-time dashboard & analytics', 'Custom branded QR codes'].map((f, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="w-6 h-6 rounded-full bg-[#E8F0FE] text-[#4285F4] flex items-center justify-center flex-shrink-0">
                       <CheckIcon />
@@ -821,17 +777,17 @@ export default function Home() {
             <div className="flex justify-center">
               <div className="relative animate-float">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/6 to-[#34A853]/6 rounded-[48px] blur-3xl scale-95"></div>
-                
+
                 {/* Phone Frame */}
                 <div className="w-[290px] bg-slate-900 rounded-[48px] p-3 shadow-2xl border-4 border-slate-800 relative">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6.5 bg-slate-900 rounded-b-2xl z-20"></div>
-                  
+
                   {/* Phone Screen */}
                   <div className="w-full bg-[#FFFFFF] rounded-[38px] overflow-hidden relative border border-slate-200">
                     <div className="qr-scan-line"></div>
                     <div className="bg-[#4285F4] p-6 pt-10 text-left">
                       <p className="text-[10px] text-blue-100 uppercase tracking-widest font-bold mb-1">🔲 Scan & Rate</p>
-                      <div className="flex items-center gap-1 mb-3">{[1,2,3,4,5].map(s=><span key={s} className="text-[#FBBC05] text-xl">★</span>)}</div>
+                      <div className="flex items-center gap-1 mb-3">{[1, 2, 3, 4, 5].map(s => <span key={s} className="text-[#FBBC05] text-xl">★</span>)}</div>
                       <p className="text-white font-extrabold text-lg leading-snug">How was your experience?</p>
                     </div>
                     <div className="p-5 space-y-4 text-left">
@@ -859,26 +815,26 @@ export default function Home() {
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">Boost your Google Reviews with smart QR filtering technology.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {plans.map((p,i)=>(
-              <div key={i} className={`rounded-[28px] p-8.5 flex flex-col relative text-left bg-white border ${p.pop?'border-[#4285F4] shadow-md shadow-[#4285F4]/5':'border-slate-200 shadow-sm'}`}>
-                {p.pop&&<div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-[#4285F4] text-xs font-bold text-white shadow-sm">Most Popular</div>}
+            {plans.map((p, i) => (
+              <div key={i} className={`rounded-[28px] p-8.5 flex flex-col relative text-left bg-white border ${p.pop ? 'border-[#4285F4] shadow-md shadow-[#4285F4]/5' : 'border-slate-200 shadow-sm'}`}>
+                {p.pop && <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-[#4285F4] text-xs font-bold text-white shadow-sm">Most Popular</div>}
                 <QRBrackets />
                 <div className="flex items-center gap-3.5 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-[#E8F0FE] border border-blue-100 flex items-center justify-center"><span className="text-[#4285F4] font-bold">{p.icon}</span></div>
-                  <span className="font-extrabold text-slate-800 text-base" style={{fontFamily:'var(--font-plus-jakarta)'}}>{p.name}</span>
+                  <span className="font-extrabold text-slate-800 text-base" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>{p.name}</span>
                 </div>
-                <p className="text-sm text-slate-500 mb-6">{p.pop?'Ideal for growing businesses':'Perfect for '+p.name.toLowerCase()+' needs'}</p>
-                <div className="mb-6"><span className="text-5xl font-black text-slate-800" style={{fontFamily:'var(--font-plus-jakarta)'}}>₹{p.price}</span><span className="text-[#4B5563] text-sm"> /month</span></div>
+                <p className="text-sm text-slate-500 mb-6">{p.pop ? 'Ideal for growing businesses' : 'Perfect for ' + p.name.toLowerCase() + ' needs'}</p>
+                <div className="mb-6"><span className="text-5xl font-black text-slate-800" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>₹{p.price}</span><span className="text-[#4B5563] text-sm"> /month</span></div>
                 <div className="h-px bg-slate-200/60 mb-6"></div>
                 <ul className="space-y-3.5 mb-8 flex-1">
-                  {p.features.map((f,j)=>(
+                  {p.features.map((f, j) => (
                     <li key={j} className="flex items-center gap-3.5 text-sm text-slate-500">
                       <div className="text-[#34A853] flex-shrink-0"><CheckIcon /></div>
                       {f}
                     </li>
                   ))}
                 </ul>
-                <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl transition-all ${p.pop?'btn-qr text-white':'border border-slate-200 text-[#4285F4] hover:bg-[#FAFBFC] hover:border-slate-300'}`}>Choose Plan</a>
+                <a href={`${d}/register`} className={`w-full block py-4 text-center font-bold rounded-2xl transition-all ${p.pop ? 'btn-qr text-white' : 'border border-slate-200 text-[#4285F4] hover:bg-[#FAFBFC] hover:border-slate-300'}`}>Choose Plan</a>
               </div>
             ))}
           </div>
@@ -899,7 +855,7 @@ export default function Home() {
                   <div className="w-28 h-28 mx-auto bg-gradient-to-br from-[#4285F4] via-[#34A853] to-[#FBBC05] rounded-full flex items-center justify-center text-white text-4xl font-extrabold shadow-lg mb-6">RK</div>
                   <p className="text-xl font-bold text-slate-850">Rajesh Kumar</p>
                   <p className="text-sm text-slate-500">Restaurant Owner, Mumbai</p>
-                  <div className="flex items-center justify-center gap-1 mt-3">{[1,2,3,4,5].map(s=><span key={s} className="text-[#FBBC05] text-lg">★</span>)}</div>
+                  <div className="flex items-center justify-center gap-1 mt-3">{[1, 2, 3, 4, 5].map(s => <span key={s} className="text-[#FBBC05] text-lg">★</span>)}</div>
                 </div>
               </div>
               <div className="p-10 lg:p-14 flex flex-col justify-center">
@@ -909,7 +865,7 @@ export default function Home() {
                 </div>
                 <div className="text-xl text-[#111827] leading-relaxed mb-8 italic">&quot;GRB&apos;s QR system transformed our reviews. Our Google rating went from <span className="text-[#34A853] font-black not-italic">3.2 to 4.7 stars</span> in just 3 months. The smart QR filtering ensures only happy customers leave public reviews.&quot;</div>
                 <div className="flex items-center gap-4">
-                  <div className="flex -space-x-2">{['bg-[#4285F4]','bg-[#34A853]','bg-[#FBBC05]'].map((c,i)=>(<div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-white flex items-center justify-center text-[10px] font-bold text-white`}>{['R','S','P'][i]}</div>))}</div>
+                  <div className="flex -space-x-2">{['bg-[#4285F4]', 'bg-[#34A853]', 'bg-[#FBBC05]'].map((c, i) => (<div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-white flex items-center justify-center text-[10px] font-bold text-white`}>{['R', 'S', 'P'][i]}</div>))}</div>
                   <span className="text-xs text-[#4B5563] font-medium">+497 businesses growing with GRB</span>
                 </div>
               </div>
@@ -927,7 +883,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight saas-heading text-slate-800"><span>Ready to boost your </span><span className="text-gradient-qr saas-underline">Google Reviews</span><span>?</span></h2>
               <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">Scan. Filter. Grow. Take control of your online reputation with GRB&apos;s smart QR system.</p>
               <a href={`${d}/register`} className="btn-primary-saas inline-flex px-12 py-5 text-lg font-bold text-white items-center gap-3">
-                Get Started Today 
+                Get Started Today
                 <ArrowRightIcon />
               </a>
               <p className="text-xs text-slate-400 mt-6 font-semibold">14-day free trial · No credit card required</p>
@@ -942,21 +898,21 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 text-left">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-[#4285F4] flex items-center justify-center"><span className="font-extrabold text-white text-lg" style={{fontFamily:'var(--font-plus-jakarta)'}}>G</span></div>
-                <span className="font-extrabold text-xl text-white" style={{fontFamily:'var(--font-plus-jakarta)'}}>GRB Software</span>
+                <div className="w-10 h-10 rounded-xl bg-[#4285F4] flex items-center justify-center"><span className="font-extrabold text-white text-lg" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>G</span></div>
+                <span className="font-extrabold text-xl text-white" style={{ fontFamily: 'var(--font-plus-jakarta)' }}>GRB Software</span>
               </div>
               <p className="text-sm text-slate-400 mb-6 leading-relaxed">Smart QR-based review management for modern Indian businesses.</p>
               <div className="flex items-center gap-3">
-                {['X','in','ig'].map((ic,i)=>(<a key={i} href="#" className="w-10 h-10 rounded-xl border border-slate-800 bg-slate-900 flex items-center justify-center text-sm text-slate-400 hover:text-white hover:border-slate-700 hover:bg-slate-800 transition-all">{ic}</a>))}
+                {['X', 'in', 'ig'].map((ic, i) => (<a key={i} href="#" className="w-10 h-10 rounded-xl border border-slate-800 bg-slate-900 flex items-center justify-center text-sm text-slate-400 hover:text-white hover:border-slate-700 hover:bg-slate-800 transition-all">{ic}</a>))}
               </div>
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-white uppercase tracking-wider mb-6">Quick Links</h4>
-              <ul className="space-y-3">{['Home','Pricing','Use Cases','About Us','Contact','Privacy Policy'].map(l=>(<li key={l}><a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">{l}</a></li>))}</ul>
+              <ul className="space-y-3">{['Home', 'Pricing', 'Use Cases', 'About Us', 'Contact', 'Privacy Policy'].map(l => (<li key={l}><a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">{l}</a></li>))}</ul>
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-white uppercase tracking-wider mb-6">Product</h4>
-              <ul className="space-y-3">{['Features','How it Works','Integrations','Security','API Docs'].map(l=>(<li key={l}><a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">{l}</a></li>))}</ul>
+              <ul className="space-y-3">{['Features', 'How it Works', 'Integrations', 'Security', 'API Docs'].map(l => (<li key={l}><a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">{l}</a></li>))}</ul>
             </div>
             <div>
               <h4 className="text-sm font-extrabold text-white uppercase tracking-wider mb-6">Contact</h4>
@@ -971,7 +927,7 @@ export default function Home() {
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-[#9CA3AF]">© 2026 GRB Software. All rights reserved.</p>
             <div className="flex items-center gap-6">
-              {['Terms of Service','Privacy Policy','Cookie Policy'].map(l=>(<a key={l} href="#" className="text-xs text-[#9CA3AF] hover:text-white transition-colors">{l}</a>))}
+              {['Terms of Service', 'Privacy Policy', 'Cookie Policy'].map(l => (<a key={l} href="#" className="text-xs text-[#9CA3AF] hover:text-white transition-colors">{l}</a>))}
             </div>
           </div>
         </div>
@@ -981,14 +937,14 @@ export default function Home() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm transition-opacity">
           <div className="relative w-full max-w-4xl bg-black rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white font-bold flex items-center justify-center text-lg transition-all"
             >
               &times;
             </button>
             <div className="relative pb-[56.25%] h-0">
-              <iframe 
+              <iframe
                 src={getEmbedUrl(videoUrl)}
                 title="Google Review Explanation Video"
                 className="absolute top-0 left-0 w-full h-full border-0"
@@ -1002,5 +958,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 // Trigger redeployment after Vercel GitHub reconnect
